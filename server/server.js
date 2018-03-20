@@ -66,7 +66,7 @@ app.all("*", (req, res, next) => {
 		<meta name="viewport" content="user-scalable=0, initial-scale=1, minimum-scale=1, width=device-width, height=device-height">
 		<link type="text/css" rel="stylesheet" href="public/main.css">
 	    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Ubuntu"/>
-	    
+	    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 	    <title>freeCodeCamp - Stock Charts</title>
 		
 	</head>
