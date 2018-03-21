@@ -24,7 +24,7 @@ if(isDev) {
 	    credentials: true
 	}));
 }
-app.use(favicon(path.join(__dirname, 'public', 'favicon.png')))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static(process.cwd() + '/public'));
