@@ -6,7 +6,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config.js';
 import bodyParser from "body-parser";
 import connectMongo from "connect-mongo";
-const favicon = require('express-favicon');
+// const favicon = require('express-favicon');
 
 const app = express();
 const compiler = webpack(webpackConfig);
@@ -24,10 +24,13 @@ if(isDev) {
 	    credentials: true
 	}));
 }
+app.get('/favicon.ico', function(req, res) {
+    res.status(204);
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static(process.cwd() + '/public'));
-app.use(favicon(__dirname + '/public/favicon.png'));
+// app.use(favicon(__dirname + '/public/favicon.png'));
 app.use('/dist', express.static(process.cwd() + '/dist'));
 const mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI;
 const mongoOptions = {
