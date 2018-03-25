@@ -2,6 +2,8 @@ import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 import injectSheet from 'react-jss';
+import Highcharts from 'highcharts';
+var addFunnel = require('highcharts/modules/funnel')(Highcharts);
 // import { connect } from 'react-redux';
 
 
@@ -22,14 +24,36 @@ const styles = {
 }
 
 const Home = (props) => {
+    // addFunnel(Highcharts);
+    // Highcharts.chart('container', { chart: {
+    //         type: 'bar'
+    //     },
+    //     title: {
+    //         text: 'Fruit Consumption'
+    //     },
+    //     xAxis: {
+    //         categories: ['Apples', 'Bananas', 'Oranges']
+    //     },
+    //     yAxis: {
+    //         title: {
+    //             text: 'Fruit eaten'
+    //         }
+    //     },
+    //     series: [{
+    //         name: 'Jane',
+    //         data: [1, 0, 4]
+    //     }, {
+    //         name: 'John',
+    //         data: [5, 7, 3]
+    //     }] });
 	return (
 	    <div className={props.classes.app}>
 	    <Header 
         	
 
     	/>
-    	<div className={props.classes.content}>
-        
+    	<div className={props.classes.content} id="container">
+
 		    Stock Charts
 		</div>    
 		<Footer />

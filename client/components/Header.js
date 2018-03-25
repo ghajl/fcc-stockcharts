@@ -15,7 +15,7 @@ const styles = {
         
         // padding: '15px',
         overflow: 'hidden',
-        boxShadow: '0 4px 4px rgba(0,0,0,.1)',
+        // boxShadow: '0 4px 4px rgba(0,0,0,.1)',
         position: 'fixed',
         top: 0,
         width: '100%',

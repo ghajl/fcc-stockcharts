@@ -14,7 +14,103 @@ body {
     height: 100%;
 }
 
-body > div:first-child {
-	height: 100%;
+.content {
+	/*height: 100%;*/
 	flex: 1 0 auto;
+    background-color: #6761A8;
+    display: flex;
+    justify-content: center;
+}
+
+header {
+    text-align: center;
+    text-transform: uppercase;
+    
+    overflow: hidden;
+    /*box-shadow: 0 4px 4px rgba(0,0,0,.1);*/
+    position: fixed;
+    top: 0;
+    width: 100%;
+    color: #009DDC;
+    background-color: #2A2D34;
+}
+
+header .title {
+    font-weight: 900;
+    padding: 1em;
+    display: inline-block;
+    
+    text-align: center;
+    
+    font-family: Ubuntu, sans-serif; 
+    
+    font-size: 1.1em;
+    
+   
+
+
+}
+@media (min-width: 768px) {
+    header .title {
+        font-size: 1.5em;
+    }
+}
+
+footer {
+    text-align: center;
+    background-color: #2A2D34;
+    
+}
+.element {
+    display: inline-block;
+    max-width: 160px;
+    text-align: center;
+}
+.container {
+    display: inline-block;
+    width: auto;
+    text-align: center;
+}
+.icon {
+    transition: .4s;
+    border-radius: 50%;
+    border: 1px solid;
+    border-color: #009B72;
+    padding: 5px;
+    margin: .5em;
+    width: 24px;
+    height: 24px;
+    
+}
+.icon:hover {
+    border-color: #F26430;
+    background-color: #F26430;
+    fill: white;
+}
+footer a {
+    color: #009B72;
+    fill: #009B72;
+
+    
+}
+footer a:hover {
+    color: #F26430;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 130px;
+    font-size: .9em;
+}
+
+.link {
+    margin: 5px auto 5px;
+}
+
+#chart {
+    width: 80%; 
+    height: 400px;
+    padding-top: 100px;
 }
