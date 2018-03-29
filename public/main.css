@@ -19,7 +19,9 @@ body {
 	flex: 1 0 auto;
     background-color: #6761A8;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    /*justify-content: center;*/
+    align-items: center;
 }
 
 header {
@@ -108,9 +110,132 @@ footer a:hover {
 .link {
     margin: 5px auto 5px;
 }
-
-#chart {
+.chart-wrapper {
     width: 80%; 
+    padding-top: 80px;
+}
+#chart {
+    width: 100%; 
     height: 400px;
-    padding-top: 100px;
+    
+}
+
+
+#controls {
+    width: 80%; 
+    padding-top: 10px;
+    /*display: flex;
+    flex-wrap: wrap;*/
+    /*justify-content: space-evenly;*/
+    margin-bottom: 20px;
+}
+.card {
+    width: 20%;
+    /*height: 40px;*/
+    background-color: #80899E;
+    
+    font-family: 'Roboto', sans-serif; 
+    transition: 1s;
+    padding: 1em;
+    border-radius: 4px;
+    margin: 5px;
+    display: inline-block;
+    /*justify-content: space-between;*/
+    box-shadow: 3px 3px 19px 0px rgba(0,0,0,.5);
+    position: relative;
+}
+.card .label {
+    display: inline-block;
+    width: 70%;
+    
+}
+.label .symbol {
+    font-size: 1em;
+    font-weight: 900;
+    text-overflow: ellipsis;
+    overflow: hidden; 
+
+    /*width: 80%;*/
+}
+.label .name {
+    font-size: .9em;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden; 
+    color: rgba(0,0,0,.6);
+    /*width: 80%;*/
+}
+
+/*.material-icons.gray {
+    color: rgba(0, 0, 0, 0.54); 
+}*/
+
+.card .close:hover {
+    color: rgba(0, 0, 0, 1); 
+}
+/*.material-icons.md-18 { font-size: 18px; }*/
+
+.card .close {
+    align-self: center;
+    color: rgba(0, 0, 0, 0.54); 
+    cursor: pointer;
+    transition: .4s;
+    /*top: 25%;*/
+    right: .5em;
+    top: 50%;
+    /*transform: translateX(-50%);*/
+    transform: translateY(-50%);
+
+    position: absolute;
+    display: inline-block;
+}
+
+.search-bar {
+        
+  background-color: #e9e9e9;
+  padding: 1em;
+  display: inline-block;
+max-width: 100%;
+}
+
+.search-bar button {
+  padding: 6px 10px;
+  /*margin-top: 8px;
+  margin-right: 16px;*/
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background: #ccc;
+}
+
+.search-bar input[type=text] {
+  padding: 6px;
+  /*margin-top: 8px;*/
+  max-width: 100%;
+  box-sizing: border-box;
+  font-size: 17px;
+  border: none;
+display: inline-block;
+text-overflow: ellipsis;
+    overflow: hidden; 
+}
+
+.search-bar form {
+
+    box-sizing: border-box;
+    max-width: 100%;
+    display: inline-block;
+    /*width: 100%;*/
+}
+
+.search {
+    margin-bottom: 10px;
+    margin-left: 1px;
+    max-width: 80%;
+    display: inline-block;
 }

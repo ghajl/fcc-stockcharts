@@ -9,7 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --config webpack.config.js",
-    "prestart": "babel server --out-dir lib/server",
+    "prestart": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components",
     "start": "node lib/server/server.js",
     "heroku-postbuild": "webpack -p --config webpack.prod.js --progress"
   },

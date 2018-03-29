@@ -1,14 +1,102 @@
-/**
- * (c) 2010-2017 Torstein Honsi
- *
- * License: www.highcharts.com/license
- * 
- * Dark theme for Highcharts JS
- * @author Torstein Honsi
- */
+import getRandomColor from '../util/RandomColor';
+import {initChart, drawChart} from './chart';
+import Card from '../components/Card';
 
 $(function () {
+    setProgress(true);
+    initChart();
+    let cards = getCardsData();
+    
+    
+    
 
+    // Create the chart
+    createChart(cards);
+
+    $('#controls').on("click", ".close", removeCard );
+
+
+    $('.search-bar form button').on("click", addStock);
+
+    $('.search-bar form').on("submit", addStock);
+
+
+    function getCardsData(){
+        return $('#controls .card').map(function(){
+            
+            return { name: $(this).attr('id'),
+                    color: $(this).find('.symbol')[0].style.color
+                }
+        }).get().reduce((acc, val) => {
+                            acc[val.name] = val.color;
+                            return acc;
+                        },{});
+    }
+
+    function removeCard() {
+        setProgress(true);
+        let element = $(this)
+        let symbol = element.parent().attr('id');
+        $.post('/data', {operation: 'REMOVE', symbol: symbol}, function(docs){
+                    
+                    element.parent().fadeOut('fast', "linear", function(){
+                        element.parent().remove();
+                        let cards = getCardsData();
+                         console.log(cards);
+                        createChart(cards);
+                    }) 
+                    
+                                       
+                })
+
+    }
+    
+    function addStock(e){
+        e.preventDefault();
+        setProgress(true);
+        let symbol = $('.search-bar input').val().toUpperCase();
+
+        let cards = getCardsData();
+        if(cards[symbol]) {
+            $('.search-bar input').val('')
+            setProgress(false);
+            return;
+        }
+        const url =
+               // "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=" + alphavantage_key;
+            "https://api.iextrading.com/1.0/stock/" + symbol + "/book";
+        $.getJSON(url)
+          .done(function(data){
+            
+            let symbol = '', companyName = '';
+            if(data.quote && data.quote.symbol){
+                symbol = data.quote.symbol;
+                if(data.quote.companyName) companyName = data.quote.companyName;
+                $.post('/data', {operation: 'ADD', symbol: symbol, companyName: companyName}, function(docs){
+                     // console.log(docs);
+                    let element = $('.card:last-child');
+                    if(element.length){
+                        element.after(Card({symbol: symbol, name: companyName}));
+                    } else {
+                        $('#controls').append(Card({symbol: symbol, name: companyName}));
+                    }
+                     
+                    let cards = getCardsData();
+                    $('.search-bar input').val('')
+                    createChart(cards);
+                })
+               
+            }
+            // let color = getRandomColor();
+            // names[symbol.toUpperCase()] = color;
+
+          })
+          .fail(function(){
+            console.log("err")
+            setProgress(false);
+          })
+        // console.log(e);
+    }
 
     var socket = io.connect('http://localhost:3000');
     socket.on('news', function (data) {
@@ -16,282 +104,97 @@ $(function () {
         socket.emit('my other event', { my: 'data' });
     });
 
-    $.get("/data", function(data){
-      console.log("Data: " + data);
-    });
+    // $.get("/data", function(data){
+    //   console.log("Data: " + data);
+    // });
 
-    Highcharts.setOptions({
-        global: {
-            useUTC: false
-        }
-    });
-    Highcharts.createElement('link', {
-       href: 'https://fonts.googleapis.com/css?family=Unica+One',
-       rel: 'stylesheet',
-       type: 'text/css'
-    }, null, document.getElementsByTagName('head')[0]);
+    // Highcharts.setOptions({
+    //     global: {
+    //         useUTC: false
+    //     }
+    // });
 
-    Highcharts.theme = {
-       colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
-          '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
-       chart: {
-          backgroundColor: {
-             linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
-             stops: [
-                [0, '#2a2a2b'],
-                [1, '#3e3e40']
-             ]
-          },
-          style: {
-             fontFamily: '\'Unica One\', sans-serif'
-          },
-          plotBorderColor: '#606063'
-       },
-       title: {
-          style: {
-             color: '#E0E0E3',
-             textTransform: 'uppercase',
-             fontSize: '20px'
-          }
-       },
-       subtitle: {
-          style: {
-             color: '#E0E0E3',
-             textTransform: 'uppercase'
-          }
-       },
-       xAxis: {
-          gridLineColor: '#707073',
-          labels: {
-             style: {
-                color: '#E0E0E3'
+    /**
+     * Load new data depending on the selected min and max
+     */
+    
+
+
+    
+    // console.log(names)
+    
+
+    function setProgress(isWaiting){
+        if(isWaiting) $('#progress').addClass('mdl-progress__indeterminate');
+        else $('#progress').removeClass('mdl-progress__indeterminate');
+    }
+    
+    function createChart(cards){
+        let stockNames = Object.keys(cards).join(',');
+        console.log(stockNames);
+        let seriesOptions = [];
+        if(!stockNames.length){
+            drawChart('chart', seriesOptions) 
+            setProgress(false);
+        } else {
+        const url =
+               // "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=" + alphavantage_key;
+            "https://api.iextrading.com/1.0/stock/market/batch?symbols=" + stockNames + "&types=quote,chart&range=5y&filter=symbol,companyName,date,minute,close";
+        $.getJSON(url, function(data){
+        //          res.setEncoding("utf8");
+        //          let body = "";
+        //          res.on("data", data => {
+        //              body += data;
+        //          });
+        //          res.on("end", () => {
+            // console.log(data);
+            // let body = JSON.parse(data);
+            
+             let chartsData = {};
+             for(let name in data){
+                 if(data[name].chart) chartsData[name] = data[name].chart.map(data => {
+                     if(data.date){
+                         let year = +data.date.slice(0,4);
+                         let month = +data.date.slice(5,7) - 1;
+                         let day = +data.date.slice(8);
+                         let hour = 0;
+                         let minute = 0;
+                         if(data.minute){
+                             hour = +data.minute.slice(0, 2);
+                             minute = +data.minute.slice(3);
+                         }
+                         let current = new Date(year, month, day, hour, minute);//.getUTCMilliseconds();
+                            
+                         let price = 0;
+                         if(data.average){
+                             price = data.average;
+                         } else if(data.close){
+                            price = data.close;
+                         }
+                         return [current.getTime(), price]
+                     } else {
+                         return [0,0];
+                     }
+                        
+                 })
              }
-          },
-          lineColor: '#707073',
-          minorGridLineColor: '#505053',
-          tickColor: '#707073',
-          title: {
-             style: {
-                color: '#A0A0A3'
-
-             }
-          }
-       },
-       yAxis: {
-          gridLineColor: '#707073',
-          labels: {
-             style: {
-                color: '#E0E0E3'
-             }
-          },
-          lineColor: '#707073',
-          minorGridLineColor: '#505053',
-          tickColor: '#707073',
-          tickWidth: 1,
-          title: {
-             style: {
-                color: '#A0A0A3'
-             }
-          }
-       },
-       tooltip: {
-          backgroundColor: 'rgba(0, 0, 0, 0.85)',
-          style: {
-             color: '#F0F0F0'
-          }
-       },
-       plotOptions: {
-          series: {
-             dataLabels: {
-                color: '#B0B0B3'
-             },
-             marker: {
-                lineColor: '#333'
-             }
-          },
-          boxplot: {
-             fillColor: '#505053'
-          },
-          candlestick: {
-             lineColor: 'white'
-          },
-          errorbar: {
-             color: 'white'
-          }
-       },
-       legend: {
-          itemStyle: {
-             color: '#E0E0E3'
-          },
-          itemHoverStyle: {
-             color: '#FFF'
-          },
-          itemHiddenStyle: {
-             color: '#606063'
-          }
-       },
-       credits: {
-          style: {
-             color: '#666'
-          }
-       },
-       labels: {
-          style: {
-             color: '#707073'
-          }
-       },
-
-       drilldown: {
-          activeAxisLabelStyle: {
-             color: '#F0F0F3'
-          },
-          activeDataLabelStyle: {
-             color: '#F0F0F3'
-          }
-       },
-
-       navigation: {
-          buttonOptions: {
-             symbolStroke: '#DDDDDD',
-             theme: {
-                fill: '#505053'
-             }
-          }
-       },
-
-       // scroll charts
-       rangeSelector: {
-          buttonTheme: {
-             fill: '#505053',
-             stroke: '#000000',
-             style: {
-                color: '#CCC'
-             },
-             states: {
-                hover: {
-                   fill: '#707073',
-                   stroke: '#000000',
-                   style: {
-                      color: 'white'
-                   }
-                },
-                select: {
-                   fill: '#000003',
-                   stroke: '#000000',
-                   style: {
-                      color: 'white'
-                   }
-                }
-             }
-          },
-          inputBoxBorderColor: '#505053',
-          inputStyle: {
-             backgroundColor: '#333',
-             color: 'silver'
-          },
-          labelStyle: {
-             color: 'silver'
-          }
-       },
-
-       navigator: {
-          handles: {
-             backgroundColor: '#666',
-             borderColor: '#AAA'
-          },
-          outlineColor: '#CCC',
-          maskFill: 'rgba(255,255,255,0.1)',
-          series: {
-             color: '#7798BF',
-             lineColor: '#A6C7ED'
-          },
-          xAxis: {
-             gridLineColor: '#505053'
-          }
-       },
-
-       scrollbar: {
-          barBackgroundColor: '#808083',
-          barBorderColor: '#808083',
-          buttonArrowColor: '#CCC',
-          buttonBackgroundColor: '#606063',
-          buttonBorderColor: '#606063',
-          rifleColor: '#FFF',
-          trackBackgroundColor: '#404043',
-          trackBorderColor: '#404043'
-       },
-
-       // special colors for some of the
-       legendBackgroundColor: 'rgba(0, 0, 0, 0.5)',
-       background2: '#505053',
-       dataLabelsColor: '#B0B0B3',
-       textColor: '#C0C0C0',
-       contrastTextColor: '#F0F0F3',
-       maskColor: 'rgba(255,255,255,0.3)'
-    };
-
-    // Apply the theme
-    Highcharts.setOptions(Highcharts.theme);
-
-    // Create the chart
-    Highcharts.stockChart('chart', {
-        chart: {
-            events: {
-                load: function () {
-
-                    // set up the updating of the chart each second
-                    var series = this.series[0];
-                    setInterval(function () {
-                        var x = (new Date()).getTime(), // current time
-                            y = Math.round(Math.random() * 100);
-                        series.addPoint([x, y], true, true);
-                    }, 1000);
-                }
+             
+            for(let name in chartsData){
+                // console.log(names);
+                seriesOptions.push({
+                    name: name,
+                    data: chartsData[name],
+                    color: cards[name]
+                })
             }
-        },
-
-        rangeSelector: {
-            buttons: [{
-                count: 1,
-                type: 'minute',
-                text: '1M'
-            }, {
-                count: 5,
-                type: 'minute',
-                text: '5M'
-            }, {
-                type: 'all',
-                text: 'All'
-            }],
-            inputEnabled: false,
-            selected: 0
-        },
-
-        title: {
-            text: 'Live random data'
-        },
-
-        exporting: {
-            enabled: false
-        },
-
-        series: [{
-            name: 'Random data',
-            data: (function () {
-                // generate an array of random data
-                var data = [],
-                    time = (new Date()).getTime(),
-                    i;
-
-                for (i = -999; i <= 0; i += 1) {
-                    data.push([
-                        time + i * 1000,
-                        Math.round(Math.random() * 100)
-                    ]);
-                }
-                return data;
-            }())
-        }]
-    });
+            drawChart('chart', seriesOptions) 
+            setProgress(false);
+                            
+        //              const appHTML = makePage(docs, chartsData);
+                        
+        //          });
+        })
+        }
+    }
 
 });

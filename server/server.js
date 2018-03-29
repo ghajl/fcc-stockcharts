@@ -8,6 +8,7 @@ import webpackConfig from '../../webpack.config.js';
 import bodyParser from "body-parser";
 import connectMongo from "connect-mongo";
 import {renderPage} from './index';
+import {getStocks, updateStocks} from './controllers/stocks'
 // const favicon = require('express-favicon');
 // var favicon = require('serve-favicon')
 const app = express();
@@ -76,9 +77,8 @@ io.on('connection', function (socket) {
 // app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.options('*', cors()) ;
-app.get("/data", function(req, res) {
-		  res.end("fafa");
-    });
+app.get("/data", getStocks);
+app.post("/data", updateStocks);
 // app.route('/')
 //     .get(function(req, res) {
 // 		  res.sendFile(process.cwd() + '/views/index.html');
