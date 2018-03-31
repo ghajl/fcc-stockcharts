@@ -13,6 +13,39 @@ $(function () {
     // Create the chart
     createChart(cards);
 
+    var socket = io.connect('http://localhost:3000');
+    socket.on('changesWereMade', function () {
+        // console.log('changes');
+        setProgress(true);
+        $.get('/data', function(docs){
+            let currentDbStocks = docs.data.reduce((acc, company) => {acc[company.symbol] = company.companyName; return acc }, {})
+            let currentLocalStocks = Object.keys(getCardsData());
+            let currentDbStocksNames = Object.keys(currentDbStocks);
+            let cardsToAdd = currentDbStocksNames.filter(stock => currentLocalStocks.indexOf(stock) == -1);
+            let cardsToRemove = currentLocalStocks.filter(stock => currentDbStocksNames.indexOf(stock) == -1);
+            if(cardsToRemove.length){
+                cardsToRemove.forEach(name => {
+                    $(`#${name}`).remove();
+                })
+            }
+            if(cardsToAdd.length){
+                cardsToAdd.forEach(symbol => {
+                    let element = $('.card:last-child');
+                    if(element.length){
+                        element.after(Card({symbol: symbol, name: currentDbStocks[symbol]}));
+                    } else {
+                        $('#controls').append(Card({symbol: symbol, name: currentDbStocks[symbol]}));
+                    }
+                })
+                
+            }
+            let cards = getCardsData();
+                         // console.log(cards);
+            createChart(cards);
+        })
+        // socket.emit('my other event', { my: 'data' });
+    });
+
     $('#controls').on("click", ".close", removeCard );
 
 
@@ -38,11 +71,11 @@ $(function () {
         let element = $(this)
         let symbol = element.parent().attr('id');
         $.post('/data', {operation: 'REMOVE', symbol: symbol}, function(docs){
-                    
+                    socket.emit('changesWereMade');
                     element.parent().fadeOut('fast', "linear", function(){
                         element.parent().remove();
                         let cards = getCardsData();
-                         console.log(cards);
+                         // console.log(cards);
                         createChart(cards);
                     }) 
                     
@@ -74,6 +107,7 @@ $(function () {
                 if(data.quote.companyName) companyName = data.quote.companyName;
                 $.post('/data', {operation: 'ADD', symbol: symbol, companyName: companyName}, function(docs){
                      // console.log(docs);
+                    socket.emit('changesWereMade');
                     let element = $('.card:last-child');
                     if(element.length){
                         element.after(Card({symbol: symbol, name: companyName}));
@@ -98,12 +132,7 @@ $(function () {
         // console.log(e);
     }
 
-    var socket = io.connect('http://localhost:3000');
-    socket.on('news', function (data) {
-        console.log(data);
-        socket.emit('my other event', { my: 'data' });
-    });
-
+    
     // $.get("/data", function(data){
     //   console.log("Data: " + data);
     // });

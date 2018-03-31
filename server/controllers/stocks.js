@@ -24,8 +24,6 @@ function addStock(req, res, next) {
 		
 		// create the new stock
 		if(!stock) {
-			// console.log(newStock);
-                // console.log(companyName);
 			newStock.save((err, user) => {
 				if (err) {
 					
@@ -41,7 +39,7 @@ function addStock(req, res, next) {
 function removeStock(req, res, next){
 	Stock.remove({ symbol: req.body.symbol }, (err, stock) => {
 		console.log(stock)
-		// create the new stock
+		
 		if(err) {
 				return res.sendStatus(401);
 		}

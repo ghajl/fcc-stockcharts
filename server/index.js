@@ -12,77 +12,11 @@ if(isDev) {
 const alphavantage_key = process.env.ALPHAVANTAGE_KEY || config.ALPHAVANTAGE_KEY;
 
 export function renderPage(request, response, next) {
-	// passport.authenticate("local", function(err, user, info) {		
-	// 	if(err) return next(err)
-	// 	if(!user) {
-	// 		return res.sendStatus(401);		
-	// 	}
-	// 	req.logIn(user, loginErr => {
-	// 		if(loginErr) {
-	// 			return res.sendStatus(401);
-	// 		}
-	// 		return  res.json({places:user.places});
-	// 	})
-	// })(req, res, next)
-
 	
 	Stock.find( {}, 'symbol companyName', (err, docs) => {
-			
-		// if(docs){
-		// 	let symbols = docs.map(s => s['symbol']).join(',');
-		// 	const url =
-		// 		  // "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=" + alphavantage_key;
-		// 		  "https://api.iextrading.com/1.0/stock/market/batch?symbols=" + symbols + "&types=quote,chart&range=1d&filter=symbol,companyName,date,minute,average"
-		// 		https.get(url, res => {
-		// 		    res.setEncoding("utf8");
-		// 		    let body = "";
-		// 		    res.on("data", data => {
-		// 			    body += data;
-		// 		    });
-		// 		    res.on("end", () => {
-		// 			    body = JSON.parse(body);
-		// 			    let chartsData = {};
-		// 			    for(let name in body){
-		// 			    	if(body[name].chart) chartsData[name] = body[name].chart.map(data => {
-		// 			    		if(data.date){
-		// 			    			let year = +data.date.slice(0,4);
-		// 			    			let month = +data.date.slice(4,6);
-		// 			    			let day = +data.date.slice(6);
-		// 			    			let hour = 0;
-		// 			    			let minute = 0;
-		// 			    			if(data.minute){
-		// 			    				hour = +data.minute.slice(0, 2);
-		// 			    				minute = +data.minute.slice(3);
-		// 			    			}
-		// 			    			let current = new Date(year, month, day, hour, minute);//.getUTCMilliseconds();
-					    			
-		// 			    			let currentAverage = 0;
-		// 			    			if(data.average){
-		// 			    				currentAverage = data.average;
-		// 			    			}
-		// 			    			return [current.getTime(), currentAverage]
-		// 			    		} else {
-		// 			    			return [0,0];
-		// 			    		}
-					    		
-		// 			    	})
-		// 				}	
-		// 				// console.log(chartsData);
-							
-		// 				const appHTML = makePage(docs, chartsData);
-						
-		// 			});
-		// 	});
-		// } else {
-		// 	const appHTML = makePage([]);
-		// }
 		const appHTML = makePage(docs);
 		response.status(200).end(appHTML);
 	} )
-	// let getStocks = Stock.find().exec();
-	// let getSymbols = Stock.find().exec();
-
-	// getSymbols.then(results => )
 }
 
 function makePage(symbols, chartsData){
@@ -93,7 +27,7 @@ function makePage(symbols, chartsData){
 
 	const appHTML = 
 	String.raw`<!doctype html>
-<html class="no-js" lang="">
+	<html class="no-js" lang="">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -132,7 +66,7 @@ function makePage(symbols, chartsData){
         <div id="controls">
         ${stocks.map(v => Card(v)).join('')}
         </div>
- </div>
+	 </div>
         <footer>
         
             <div class="container">
@@ -178,28 +112,10 @@ function makePage(symbols, chartsData){
 
         
     </body>
-</html>`
-// console.log(appHTML)
+	</html>`
 	return appHTML;
 	
 }
-
-// function Card(data){
-// 	// console.log(data)
-// 	// var cssHSL = "hsl(" + 360 * Math.random() + ',' +
-//  //                 (40 + 50 * Math.random()) + '%,' + 
-//  //                 (40 + 10 * Math.random()) + '%)';
-// 	const cssHSL = getRandomColor();
-// 	const element = `<div id=${data.symbol} class="card">
-// 						<div class="label">
-// 						<div class="symbol" style="color: ${cssHSL}">${data.symbol}</div>
-// 						<div class="name">${data.name}</div>
-// 						</div>
-// 						<div class="close"><i class="material-icons md-18 gray">close</i></div>
-// 					</div>`;
-// 	return element;
-// }
-
 
 function SearchBar(){
 	const element = `<div class='search-bar'>
@@ -211,5 +127,3 @@ function SearchBar(){
 
 	return element;
 }
-// style="border: 2px solid ${cssHSL}"
-// <i class="material-icons">search</i>
