@@ -1,0 +1,1 @@
+export const SYMBOL_ERROR_MESSAGE = "Symbol doesn't exist";

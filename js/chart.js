@@ -219,20 +219,6 @@ export function initChart(){
 
 export function drawChart(elementId, series){
     Highcharts.stockChart(elementId, {
-        // chart: {
-        //     events: {
-        //         load: function () {
-
-        //             // set up the updating of the chart each second
-        //             var series = this.series[0];
-        //             // setInterval(function () {
-        //                 var x = (new Date()).getTime(), // current time
-        //                     y = Math.round(Math.random() * 100);
-        //                 series.addPoint([x, y], true, true);
-        //             // }, 1000);
-        //         }
-        //     }
-        // },
         yAxis: {
             labels: {
                 formatter: function () {
@@ -248,31 +234,12 @@ export function drawChart(elementId, series){
 
         plotOptions: {
             series: {
-                compare: 'value',
+                compare: 'percent',
                 showInNavigator: true
             }
         },
 
         xAxis: {
-            events: {
-                afterSetExtremes: function afterSetExtremes(e) {
-
-                    var chart = Highcharts.charts[0];
-
-                    chart.showLoading('Loading data from server...');
-
-                // if(typeof(e.rangeSelectorButton)!== 'undefined')
-                //     {
-                      // alert('count: '+e.min + 'text: ' +e.max );
-                    // }
-                    // $.getJSON('https://www.highcharts.com/samples/data/from-sql.php?start=' + Math.round(e.min) +
-                    //         '&end=' + Math.round(e.max) + '&callback=?', function (data) {
-
-                    //     chart.series[0].setData(data);
-                        chart.hideLoading();
-                    // });
-                }
-            },
             minRange: 3600 * 1000 * 24 * 7
         },
 
@@ -290,11 +257,7 @@ export function drawChart(elementId, series){
                 type: 'month',
                 count: 1,
                 text: '1m',
-                events: {
-                    click: function() {
-                        console.log('Clicked button');
-                    }
-                }
+                
             }, {
                 type: 'year',
                 count: 1,

@@ -5,8 +5,8 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config.js';
-import bodyParser from "body-parser";
-import connectMongo from "connect-mongo";
+// import bodyParser from "body-parser";
+// import connectMongo from "connect-mongo";
 import {renderPage} from './index';
 import {getStocks, updateStocks} from './controllers/stocks'
 // const favicon = require('express-favicon');
@@ -37,8 +37,8 @@ if(isDev) {
 	}));
 }
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static(process.cwd() + '/public'));
 // app.use(favicon(__dirname + '/public/favicon.png'));
 app.use('/dist', express.static(process.cwd() + '/dist'));

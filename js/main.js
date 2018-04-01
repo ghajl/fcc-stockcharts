@@ -1,21 +1,18 @@
 import getRandomColor from '../util/RandomColor';
 import {initChart, drawChart} from './chart';
 import Card from '../components/Card';
+import {SYMBOL_ERROR_MESSAGE} from '../util/Messages';
 
 $(function () {
     setProgress(true);
     initChart();
-    // let cards = getCardsData();
-    
-    
-    
 
     // Create the chart
     createChart();
+    console.log(window.location)
+    var socket = io();
 
-    var socket = io.connect('http://localhost:3000');
     socket.on('changesWereMade', function () {
-        // console.log('changes');
         setProgress(true);
         $.get('/data', function(docs){
             let currentDbStocks = docs.data.reduce((acc, company) => {acc[company.symbol] = company.companyName; return acc }, {})
@@ -30,7 +27,7 @@ $(function () {
             }
             if(cardsToAdd.length){
                 cardsToAdd.forEach(symbol => {
-                    let element = $('.card:last-child');
+                    let element = $('.fcc-sc-card:last-child');
                     if(element.length){
                         element.after(Card({symbol: symbol, name: currentDbStocks[symbol]}));
                     } else {
@@ -39,27 +36,33 @@ $(function () {
                 })
                 
             }
-            
-                         // console.log(cards);
-                         // createChart();
             setTimeout(createChart, 1000);
         })
-        // socket.emit('my other event', { my: 'data' });
     });
 
-    $('#controls').on("click", ".close", removeCard );
+    $('#controls').on("click", ".fcc-sc-close", removeCard );
 
 
-    $('.search-bar form button').on("click", addStock);
+    $('.fcc-sc-search-bar form button').on("click", addStock);
 
-    $('.search-bar form').on("submit", addStock);
+    $('.fcc-sc-search-bar form').on("submit", addStock);
 
+
+    function showMessage(message){
+        $('.fcc-sc-search-bar input').val('');
+        $('#messageDialog').modal();
+    }
+
+    $('#messageDialog').on('show.bs.modal', function (event) {
+        var modal = $(this)
+        modal.find('#text').text(SYMBOL_ERROR_MESSAGE)
+    })
 
     function getCardsData(){
-        return $('#controls .card').map(function(){
+        return $('#controls .fcc-sc-card').map(function(){
             
             return { name: $(this).attr('id'),
-                    color: $(this).find('.symbol')[0].style.color
+                    color: $(this).find('.fcc-sc-symbol')[0].style.color
                 }
         }).get().reduce((acc, val) => {
                             acc[val.name] = val.color;
@@ -75,8 +78,6 @@ $(function () {
                     socket.emit('changesWereMade');
                     element.parent().fadeOut('fast', "linear", function(){
                         element.parent().remove();
-                        // let cards = getCardsData();
-                         // console.log(cards);
                         createChart();
                     }) 
                     
@@ -88,16 +89,19 @@ $(function () {
     function addStock(e){
         e.preventDefault();
         setProgress(true);
-        let symbol = $('.search-bar input').val().toUpperCase();
-
+        let symbol = $('.fcc-sc-search-bar input').val().toUpperCase();
+        if(symbol.trim() === ''){
+            $('.fcc-sc-search-bar input').val('')
+            setProgress(false);
+            return;
+        }
         let cards = getCardsData();
         if(cards[symbol]) {
-            $('.search-bar input').val('')
+            $('.fcc-sc-search-bar input').val('')
             setProgress(false);
             return;
         }
         const url =
-               // "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=" + alphavantage_key;
             "https://api.iextrading.com/1.0/stock/" + symbol + "/book";
         $.getJSON(url)
           .done(function(data){
@@ -107,52 +111,26 @@ $(function () {
                 symbol = data.quote.symbol;
                 if(data.quote.companyName) companyName = data.quote.companyName;
                 $.post('/data', {operation: 'ADD', symbol: symbol, companyName: companyName}, function(docs){
-                     // console.log(docs);
                     socket.emit('changesWereMade');
-                    let element = $('.card:last-child');
+                    let element = $('.fcc-sc-card:last-child');
                     if(element.length){
                         element.after(Card({symbol: symbol, name: companyName}));
                     } else {
                         $('#controls').append(Card({symbol: symbol, name: companyName}));
                     }
                      
-                    // let cards = getCardsData();
-                    $('.search-bar input').val('')
+                    $('.fcc-sc-search-bar input').val('')
                     createChart();
                 })
                
             }
-            // let color = getRandomColor();
-            // names[symbol.toUpperCase()] = color;
 
           })
           .fail(function(){
-            console.log("err")
+            showMessage(SYMBOL_ERROR_MESSAGE);
             setProgress(false);
           })
-        // console.log(e);
     }
-
-    
-    // $.get("/data", function(data){
-    //   console.log("Data: " + data);
-    // });
-
-    // Highcharts.setOptions({
-    //     global: {
-    //         useUTC: false
-    //     }
-    // });
-
-    /**
-     * Load new data depending on the selected min and max
-     */
-    
-
-
-    
-    // console.log(names)
-    
 
     function setProgress(isWaiting){
         if(isWaiting) $('#progress').addClass('mdl-progress__indeterminate');
@@ -162,25 +140,14 @@ $(function () {
     function createChart(){
         let cards = getCardsData();
         let stockNames = Object.keys(cards).join(',');
-        console.log(stockNames);
         let seriesOptions = [];
         if(!stockNames.length){
             drawChart('chart', seriesOptions) 
             setProgress(false);
         } else {
         const url =
-               // "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=MSFT&interval=1min&apikey=" + alphavantage_key;
             "https://api.iextrading.com/1.0/stock/market/batch?symbols=" + stockNames + "&types=quote,chart&range=5y&filter=symbol,companyName,date,minute,close";
         $.getJSON(url, function(data){
-        //          res.setEncoding("utf8");
-        //          let body = "";
-        //          res.on("data", data => {
-        //              body += data;
-        //          });
-        //          res.on("end", () => {
-            // console.log(data);
-            // let body = JSON.parse(data);
-            
              let chartsData = {};
              for(let name in data){
                  if(data[name].chart) chartsData[name] = data[name].chart.map(data => {
@@ -194,7 +161,7 @@ $(function () {
                              hour = +data.minute.slice(0, 2);
                              minute = +data.minute.slice(3);
                          }
-                         let current = new Date(year, month, day, hour, minute);//.getUTCMilliseconds();
+                         let current = new Date(year, month, day, hour, minute);
                             
                          let price = 0;
                          if(data.average){
@@ -211,7 +178,6 @@ $(function () {
              }
              
             for(let name in chartsData){
-                // console.log(names);
                 seriesOptions.push({
                     name: name,
                     data: chartsData[name],
@@ -220,10 +186,6 @@ $(function () {
             }
             drawChart('chart', seriesOptions) 
             setProgress(false);
-                            
-        //              const appHTML = makePage(docs, chartsData);
-                        
-        //          });
         })
         }
     }
