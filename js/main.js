@@ -5,13 +5,13 @@ import Card from '../components/Card';
 $(function () {
     setProgress(true);
     initChart();
-    let cards = getCardsData();
+    // let cards = getCardsData();
     
     
     
 
     // Create the chart
-    createChart(cards);
+    createChart();
 
     var socket = io.connect('http://localhost:3000');
     socket.on('changesWereMade', function () {
@@ -39,9 +39,10 @@ $(function () {
                 })
                 
             }
-            let cards = getCardsData();
+            
                          // console.log(cards);
-            createChart(cards);
+                         // createChart();
+            setTimeout(createChart, 1000);
         })
         // socket.emit('my other event', { my: 'data' });
     });
@@ -74,9 +75,9 @@ $(function () {
                     socket.emit('changesWereMade');
                     element.parent().fadeOut('fast', "linear", function(){
                         element.parent().remove();
-                        let cards = getCardsData();
+                        // let cards = getCardsData();
                          // console.log(cards);
-                        createChart(cards);
+                        createChart();
                     }) 
                     
                                        
@@ -115,9 +116,9 @@ $(function () {
                         $('#controls').append(Card({symbol: symbol, name: companyName}));
                     }
                      
-                    let cards = getCardsData();
+                    // let cards = getCardsData();
                     $('.search-bar input').val('')
-                    createChart(cards);
+                    createChart();
                 })
                
             }
@@ -158,7 +159,8 @@ $(function () {
         else $('#progress').removeClass('mdl-progress__indeterminate');
     }
     
-    function createChart(cards){
+    function createChart(){
+        let cards = getCardsData();
         let stockNames = Object.keys(cards).join(',');
         console.log(stockNames);
         let seriesOptions = [];
