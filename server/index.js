@@ -130,7 +130,7 @@ function SearchBar(){
 						<form>
 						<input type="text" placeholder="Enter symbol here.." name="search">
 						<button type="button">Submit</button>
-						<form>
+						</form>
 					</div>`;
 
 	return element;
