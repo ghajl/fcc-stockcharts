@@ -74,7 +74,7 @@ io.on('connection', function (socket) {
 });
 
 // app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
+// app.use(require('body-parser').urlencoded({ extended: true }));
 app.options('*', cors()) ;
 app.get("/data", getStocks);
 app.post("/data", updateStocks);
