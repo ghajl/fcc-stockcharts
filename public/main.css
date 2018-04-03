@@ -129,9 +129,9 @@ footer .fcc-sc-link {
     margin-bottom: 20px;
 }
 .fcc-sc-card {
-    width: 50%;
+    width: calc(50% - 10px);
     background-color: #80899E;
-    
+    box-sizing: border-box;
     font-family: 'Roboto', sans-serif; 
     padding: 1em;
     border-radius: 4px;
