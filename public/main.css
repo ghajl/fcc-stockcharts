@@ -15,29 +15,28 @@ body {
 }
 
 .fcc-sc-content {
-	/*height: 100%;*/
 	flex: 1 0 auto;
     background-color: #6761A8;
     display: flex;
     flex-direction: column;
-    /*justify-content: center;*/
     align-items: center;
 }
 
-header {
+.fcc-sc-header {
+    box-sizing: content-box;
     text-align: center;
     text-transform: uppercase;
-    
+    height: 51px;
     overflow: hidden;
-    /*box-shadow: 0 4px 4px rgba(0,0,0,.1);*/
-    position: fixed;
+    position: relative;
     top: 0;
     width: 100%;
     color: #009DDC;
     background-color: #2A2D34;
+    display: inline-block;
 }
 
-header .fcc-sc-title {
+.fcc-sc-header .fcc-sc-title {
     font-weight: 900;
     padding: 1em;
     display: inline-block;
@@ -53,15 +52,18 @@ header .fcc-sc-title {
 
 }
 @media (min-width: 768px) {
-    header .fcc-sc-title {
+    .fcc-sc-header .fcc-sc-title {
         font-size: 1.5em;
+    }
+    .fcc-sc-header {
+        height: 62px;
     }
 }
 
 footer {
     text-align: center;
     background-color: #2A2D34;
-    /*height: 50px;*/
+    
 }
 footer .fcc-sc-element {
     display: inline-block;
@@ -124,25 +126,26 @@ footer .fcc-sc-link {
 #controls {
     width: 80%; 
     padding-top: 10px;
-    /*display: flex;
-    flex-wrap: wrap;*/
-    /*justify-content: space-evenly;*/
     margin-bottom: 20px;
 }
 .fcc-sc-card {
-    width: 20%;
-    /*height: 40px;*/
+    width: 50%;
     background-color: #80899E;
     
     font-family: 'Roboto', sans-serif; 
-    transition: 1s;
     padding: 1em;
     border-radius: 4px;
     margin: 5px;
     display: inline-block;
-    /*justify-content: space-between;*/
     box-shadow: 3px 3px 19px 0px rgba(0,0,0,.5);
     position: relative;
+}
+
+@media (min-width: 768px) {
+    
+    .fcc-sc-card {
+        width: 20%;
+    }
 }
 .fcc-sc-card .fcc-sc-label {
     display: inline-block;
@@ -154,8 +157,6 @@ footer .fcc-sc-link {
     font-weight: 900;
     text-overflow: ellipsis;
     overflow: hidden; 
-
-    /*width: 80%;*/
 }
 .fcc-sc-label .fcc-sc-name {
     font-size: .9em;
@@ -164,64 +165,51 @@ footer .fcc-sc-link {
     white-space: nowrap;
     overflow: hidden; 
     color: rgba(0,0,0,.6);
-    /*width: 80%;*/
 }
-
-/*.material-icons.gray {
-    color: rgba(0, 0, 0, 0.54); 
-}*/
 
 .fcc-sc-card .fcc-sc-close:hover {
     color: rgba(0, 0, 0, 1); 
 }
-/*.material-icons.md-18 { font-size: 18px; }*/
 
 .fcc-sc-card .fcc-sc-close {
-    align-self: center;
     color: rgba(0, 0, 0, 0.54); 
     cursor: pointer;
     transition: .4s;
-    /*top: 25%;*/
     right: .5em;
     top: 50%;
-    /*transform: translateX(-50%);*/
     transform: translateY(-50%);
-
     position: absolute;
     display: inline-block;
 }
 
 .fcc-sc-search-bar {
         
-  background-color: #e9e9e9;
-  padding: 1em;
-  display: inline-block;
-max-width: 100%;
+    background-color: #e9e9e9;
+    padding: 1em;
+    display: inline-block;
+    max-width: 100%;
 }
 
 .fcc-sc-search-bar button {
-  padding: 6px 10px;
-  /*margin-top: 8px;
-  margin-right: 16px;*/
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
+    padding: 6px 10px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
 }
 
 .fcc-sc-search-bar button:hover {
-  background: #ccc;
+    background: #ccc;
 }
 
 .fcc-sc-search-bar input[type=text] {
-  padding: 6px;
-  /*margin-top: 8px;*/
-  max-width: 100%;
-  box-sizing: border-box;
-  font-size: 17px;
-  border: none;
-display: inline-block;
-text-overflow: ellipsis;
+    padding: 6px;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-size: 17px;
+    border: none;
+    display: inline-block;
+    text-overflow: ellipsis;
     overflow: hidden; 
 }
 
@@ -230,7 +218,6 @@ text-overflow: ellipsis;
     box-sizing: border-box;
     max-width: 100%;
     display: inline-block;
-    /*width: 100%;*/
 }
 
 .fcc-sc-search {

@@ -51,15 +51,15 @@ function makePage(symbols, chartsData){
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     </head>
     <body>
-        
-        <header class="fcc-sc-header">
+        <div class="fcc-sc-content">
+        <div class="fcc-sc-header">
             <div  class="fcc-sc-title">
                 Stock Charts
             </div>
         
-        </header>
+        </div>
         ${MessageDialog()}
-        <div class="fcc-sc-content">
+        
         <div class="chart-wrapper">
         <div class="fcc-sc-search">
         ${SearchBar()}
