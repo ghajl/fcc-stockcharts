@@ -233,6 +233,10 @@ footer .fcc-sc-link {
     color: #F26430;
 }
 
+#messageDialog .modal-content{
+    background-color: white;    
+}
+
 .modal-footer {
     justify-content: center;
     border: none;
