@@ -234,7 +234,7 @@ footer .fcc-sc-link {
 }
 
 #messageDialog .modal-content{
-    background-color: white;    
+    background-color: white !important;    
 }
 
 .modal-footer {
