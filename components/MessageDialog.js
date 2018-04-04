@@ -1,4 +1,4 @@
-export default function MessageDialog(){
+export default (function(){
 	return `<div class="modal fade" id="messageDialog" tabindex="-1" role="dialog" aria-labelledby="messageDialog" aria-hidden="true">
 			  <div class="modal-dialog modal-sm" role="document">
 			    <div class="modal-content">
@@ -11,5 +11,5 @@ export default function MessageDialog(){
 			    </div>
 			  </div>
 			</div>`;
-}
+})();
 

@@ -1,7 +1,7 @@
 import getRandomColor from '../util/RandomColor';
 import {initChart, drawChart} from './chart';
 import Card from '../components/Card';
-import {SYMBOL_ERROR_MESSAGE} from '../util/Messages';
+import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from '../util/Messages';
 
 $(function () {
     setProgress(true);
@@ -9,11 +9,12 @@ $(function () {
 
     // Create the chart
     createChart();
-    console.log(window.location)
     var socket = io();
+
 
     socket.on('changesWereMade', function () {
         setProgress(true);
+        //get current stock symbols from db
         $.get('/data', function(docs){
             let currentDbStocks = docs.data.reduce((acc, company) => {acc[company.symbol] = company.companyName; return acc }, {})
             let currentLocalStocks = Object.keys(getCardsData());
@@ -37,7 +38,10 @@ $(function () {
                 
             }
             setTimeout(createChart, 1000);
-        })
+        }).fail(function() {
+            showMessage(REQUEST_ERROR_MESSAGE);
+            setProgress(false);
+        });
     });
 
     $('#controls').on("click", ".fcc-sc-close", removeCard );
@@ -49,15 +53,20 @@ $(function () {
 
 
     function showMessage(message){
+        let text = message;
         $('.fcc-sc-search-bar input').val('');
+        
+        //set text to message dialog
+        $('#messageDialog').on('show.bs.modal', function (event) {
+            var modal = $(this)
+            modal.find('#text').text(text)
+        })
         $('#messageDialog').modal();
     }
 
-    $('#messageDialog').on('show.bs.modal', function (event) {
-        var modal = $(this)
-        modal.find('#text').text(SYMBOL_ERROR_MESSAGE)
-    })
+    
 
+    //get symbols name and colors from cards 
     function getCardsData(){
         return $('#controls .fcc-sc-card').map(function(){
             
@@ -82,7 +91,10 @@ $(function () {
                     }) 
                     
                                        
-                })
+                }).fail(function() {
+                    showMessage(REQUEST_ERROR_MESSAGE);
+                    setProgress(false);
+                });
 
     }
     
@@ -101,6 +113,7 @@ $(function () {
             setProgress(false);
             return;
         }
+        //check if symbol exists
         const url =
             "https://api.iextrading.com/1.0/stock/" + symbol + "/book";
         $.getJSON(url)
@@ -121,7 +134,10 @@ $(function () {
                      
                     $('.fcc-sc-search-bar input').val('')
                     createChart();
-                })
+                }).fail(function() {
+                    showMessage(REQUEST_ERROR_MESSAGE);
+                    setProgress(false);
+                });
                
             }
 
@@ -186,7 +202,10 @@ $(function () {
             }
             drawChart('chart', seriesOptions) 
             setProgress(false);
-        })
+        }).fail(function() {
+            showMessage(REQUEST_ERROR_MESSAGE);
+            setProgress(false);
+        });
         }
     }
 
