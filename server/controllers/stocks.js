@@ -38,7 +38,6 @@ function addStock(req, res, next) {
 
 function removeStock(req, res, next){
 	Stock.remove({ symbol: req.body.symbol }, (err, stock) => {
-		console.log(stock)
 		
 		if(err) {
 				return res.sendStatus(401);

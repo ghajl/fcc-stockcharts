@@ -144,7 +144,7 @@ footer .fcc-sc-link {
 @media (min-width: 768px) {
     
     .fcc-sc-card {
-        width: 20%;
+        width: calc(20% - 10px);
     }
 }
 .fcc-sc-card .fcc-sc-label {
@@ -234,7 +234,7 @@ footer .fcc-sc-link {
 }
 
 #messageDialog .modal-content{
-    background-color: white !important;    
+    background-color: white;    
 }
 
 .modal-footer {
