@@ -2,7 +2,7 @@ import getRandomColor from '../util/RandomColor';
 import {initChart, drawChart} from './chart';
 import Card from '../components/Card';
 import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from '../util/Messages';
-import {setCards, getCard, getCards, addCard, removeCard} from '../lib/controllers/Cards';
+import {setCards, getCard, getCards, addCard, removeCard} from '../controllers/Cards';
 
 $(function () {
     
