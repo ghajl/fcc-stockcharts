@@ -14,7 +14,7 @@ $(function () {
 
     $('.fcc-sc-search-bar form').on("submit", addStock);
 
-    var socket = io();
+    var socket = io({reconnectionAttempts: 10});
     socket.on('changesWereMade', function () {
         setProgress(true);
         $.get('/data', function(docs){
@@ -59,7 +59,7 @@ $(function () {
         createChart();
     }
 
-    /** Shows message with Bootstrap’s JavaScript modal plugin */
+    /** Shows message with Bootstrap’s modal */
     function showMessage(message){
         let text = message;
         $('.fcc-sc-search-bar input').val('');
@@ -84,7 +84,7 @@ $(function () {
 
 
     /**
-     *  Removes stock data from db, then sends socket event,
+     *  Removes stock data from db, sends socket event,
      *  removes stock card from DOM and cards list, and redraws chart.
      *  Shows message in case of error. 
      */
@@ -120,7 +120,7 @@ $(function () {
     /**
      *  Checks if the string from input is actually a stock symbol by acquiring a json file
      *  from iextrading api's https://api.iextrading.com/1.0/stock/<symbol>/book, then adds stock's data - 
-     *  symbol and company's name - to the DOM and to the stock's data list, sends socket event and 
+     *  symbol and company's name - to the DOM and to the cards list, sends socket event and 
      *  calls redraw the chart
      */
     function addStock(e){
@@ -187,9 +187,9 @@ $(function () {
      *  that is five years historically adjusted market-wide data containing stock symbol, company name, date, time and close price.
      *  Then the function builds from this data the object seriesOptions for creating Highcharts JS's chart and passes it to function 
      *  that draws the chart.
-     *  The seriesOptions is an array of objects which contain properties: name - a stock symbol, data - array of arrays that contain a pair - 
-     *  time in milliseconds and price, and hsl or rgb color code.
-     *  
+     *  seriesOptions: [{ name: string ('FB'),
+     *                   data: [[number (1365714000000), number (27.4)]],
+     *                   color: string ('rgb(43, 181, 45)')}]
      */
     function createChart(){
         let cards = getCards();
@@ -206,7 +206,7 @@ $(function () {
              for(let name in data){
                  if(data[name].chart) chartsData[name] = data[name].chart.map(data => {
                      if(data.date){
-                         let year = +data.date.slice(0,4);
+                        let year = +data.date.slice(0,4);
                          let month = +data.date.slice(5,7) - 1;
                          let day = +data.date.slice(8);
                          let hour = 0;
@@ -218,9 +218,7 @@ $(function () {
                          let current = new Date(year, month, day, hour, minute);
                             
                          let price = 0;
-                         if(data.average){
-                             price = data.average;
-                         } else if(data.close){
+                         if(data.close){
                             price = data.close;
                          }
                          return [current.getTime(), price]
@@ -232,6 +230,10 @@ $(function () {
              }
              
             for(let name in chartsData){
+                console.log(typeof name)
+                console.log(name)
+                console.log(chartsData[name])
+                console.log(cards[name].color)
                 seriesOptions.push({
                     name: name,
                     data: chartsData[name],

@@ -216,7 +216,12 @@ export function initChart(){
     Highcharts.setOptions(Highcharts.theme);
 
 }
-
+    
+/**
+ *  @param {string} elementId - div's id where the chart will lie.
+ *  @param {{name: string, data: [[number, number]], color: string }[]} series - name - a stock symbol, data - array of arrays that contain a pair - 
+ *  time in milliseconds and price, and hsl or rgb color code.
+ */
 export function drawChart(elementId, series){
     Highcharts.stockChart(elementId, {
         yAxis: {
@@ -282,4 +287,4 @@ export function drawChart(elementId, series){
 
         series: [].concat(series, [[Date.now(), null, null, null, null]]),
     });
-    }
+}

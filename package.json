@@ -7,10 +7,11 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "set NODE_ENV=test&& mocha --timeout 3000 --recursive test",
-    "dev": "set NODE_ENV=development&& node lib/server/server.js",
     "prestart": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers",
     "predev": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers",
+    "pretest": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers && babel test --out-dir lib/test",
+    "test": "set NODE_ENV=test&& mocha --timeout 3000 --recursive lib/test",
+    "dev": "set NODE_ENV=development&& node lib/server/server.js",
     "start": "node lib/server/server.js",
     "heroku-postbuild": "webpack -p --config webpack.prod.js --progress"
   },
