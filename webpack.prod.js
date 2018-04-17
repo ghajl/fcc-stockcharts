@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-    entry: './js/main.js',
+    entry: ['babel-polyfill','./js/main.js'],
     output: {
         filename: 'bundle.js',
         path: path.resolve(process.cwd(),  'dist'),
