@@ -43,7 +43,6 @@ if(process.env.NODE_ENV === "test"){
 } else {
 	mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI
 }
-console.log(mongoDB)
 const mongoOptions = {
     useMongoClient: true,
     reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
@@ -74,7 +73,8 @@ io.on('connection', function (socket) {
 });
 
 // app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
+//use json() for axios
+app.use(require('body-parser').json());
 app.options('*', cors()) ;
 app.get("/data", getStocks);
 app.post("/data", updateStocks);

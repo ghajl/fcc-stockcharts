@@ -1,8 +1,8 @@
 import getRandomColor from '../util/RandomColor';
 
-var cardList;
+var cardList = {};
 
-export function setCards(data){
+export function setCards(data = []){
 	if(data) cardList = data.reduce((acc, val) => {
 		if(val['symbol']){
 			acc[val['symbol']] = {

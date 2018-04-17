@@ -29,7 +29,7 @@ function addStock(req, res, next) {
 					
 					return res.sendStatus(401);
 				}
-				return getStocks(req, res, next)
+				return res.sendStatus(200);
 			})
 		}
 	})

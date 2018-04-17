@@ -10,7 +10,7 @@
     "prestart": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers",
     "predev": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers",
     "pretest": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers && babel test --out-dir lib/test",
-    "test": "set NODE_ENV=test&& mocha --timeout 3000 --recursive lib/test",
+    "test": "set NODE_ENV=test&& mocha --compilers js:babel-core/register --require babel-polyfill --timeout 3000 --recursive lib/test",
     "dev": "set NODE_ENV=development&& node lib/server/server.js",
     "start": "node lib/server/server.js",
     "heroku-postbuild": "webpack -p --config webpack.prod.js --progress"
@@ -18,6 +18,7 @@
   "author": "ghajl",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
@@ -44,7 +45,11 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "chai-http": "^4.0.0",
-    "mocha": "^5.0.5"
+    "jquery": "^3.3.1",
+    "jsdom": "^11.7.0",
+    "mocha": "^5.0.5",
+    "mock-socket": "^7.1.0"
   }
 }

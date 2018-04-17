@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-    entry: './js/main.js',
+    entry: ['babel-polyfill','./js/main.js'],
     output: {
         filename: 'bundle.js',
         path: path.resolve(process.cwd(),  'public'),
@@ -21,7 +21,7 @@ module.exports = {
                 use: {
                   loader: 'babel-loader',
                   options: {
-                    presets: ['env', 'react'],
+                    presets: ['env'],
                     plugins: ['transform-class-properties']
                   }
                 }

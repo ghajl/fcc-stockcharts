@@ -19,7 +19,6 @@ export function renderPage(request, response, next) {
 	Stock.find( {}, 'symbol companyName', (err, docs) => {
         setCards(docs);
         const cardsData = getCards();
-        console.log(cardsData)
         const appHTML = makePage(cardsData);
 		response.status(200).end(appHTML);
 	} )
