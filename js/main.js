@@ -81,7 +81,7 @@ $(function () {
                 })
                 
             }
-            setTimeout(createChart, 1000);        
+            await createChart();        
         } catch(err) {
             console.log(err);
             showMessage(REQUEST_ERROR_MESSAGE);
