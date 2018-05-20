@@ -6,7 +6,7 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack.config.js';
-import {renderPage} from './index';
+import {renderPage} from '../app/index';
 import {getStocks, updateStocks} from './controllers/stocks'
 const app = express();
 const compiler = webpack(webpackConfig);

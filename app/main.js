@@ -1,9 +1,9 @@
 require("babel-polyfill");
-import getRandomColor from '../util/RandomColor';
+import getRandomColor from './util/RandomColor';
 import {initChart, drawChart} from './chart';
-import Card from '../components/Card';
-import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from '../util/Messages';
-import {setCards, getCard, getCards, addCard, removeCard} from '../controllers/Cards';
+import Card from './components/Card';
+import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/Messages';
+import {setCards, getCard, getCards, addCard, removeCard} from './cards';
 import {getStocksData, addStockData, removeStockData, getHistoricalData, getStockSymbolData} from './helpers';
 
 var socket = io({reconnectionAttempts: 10});
@@ -14,9 +14,9 @@ $(function () {
 
     $('#controls').on("click", ".fcc-sc-close", removeStock);
 
-    $('.fcc-sc-search-bar form button').on("click", addStock);
+    $('#buttonSearch').on("click", addStock);
 
-    $('.fcc-sc-search-bar form').on("submit", addStock);
+    $('#formSearch').on("submit", addStock);
 
     socket.on('changesWereMade', rebuildPage);
 

@@ -1,16 +1,14 @@
-import Stock from './models/stock';
+import Stock from '../server/models/stock';
 import https from "https";
-import getRandomColor from '../util/RandomColor';
-import Card from '../components/Card';
-import MessageDialog from '../components/MessageDialog';
-import SearchBar from '../components/SearchBar';
-import IconLink from '../components/IconLink';
-import {setCards, getCards} from '../controllers/Cards';
+import Card from './components/Card';
+import MessageDialog from './components/MessageDialog';
+import IconLink from './components/IconLink';
+import {setCards, getCards} from './cards';
 
 let config = null;
 const isDev = process.env.NODE_ENV === "development";
 if(isDev) {
-    config = require("./config").config;
+    config = require("../server/config").config;
 }
 const bundlePath = isDev ? "/bundle.js" : "/dist/bundle.js";
 
@@ -72,7 +70,12 @@ function makePage(symbols){
         
         <div class="chart-wrapper">
         <div class="fcc-sc-search">
-        ${SearchBar}
+            <div class='fcc-sc-search-bar'>
+                <form id="formSearch">
+                    <input type="text" placeholder="Enter symbol here.." name="search">
+                    <button id="buttonSearch" type="button">Submit</button>
+                </form>
+            </div>
         </div>
         <div id="chart"></div>
 

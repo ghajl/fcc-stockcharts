@@ -1,7 +1,6 @@
 import getRandomColor from '../util/RandomColor';
 
 export default function Card(data){
-	// const cssHSL = getRandomColor();
 	const element = `<div id=${data.symbol} class="fcc-sc-card">
 						<div class="fcc-sc-label">
 						<div class="fcc-sc-symbol" style="color: ${data.color}">${data.symbol}</div>

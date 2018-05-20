@@ -7,8 +7,8 @@
   },
   "main": "index.js",
   "scripts": {
-    "predev": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers",
-    "pretest": "babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers && babel test --out-dir lib/test",
+    "predev": "babel server --out-dir lib/server && babel app --out-dir lib/app",
+    "pretest": "babel server --out-dir lib/server && babel app --out-dir lib/app && babel test --out-dir lib/test",
     "test": "set NODE_ENV=test&& mocha --compilers js:babel-core/register --require babel-polyfill --timeout 3000 --recursive lib/test",
     "dev": "set NODE_ENV=development&& node lib/server/server.js",
     "start": "node lib/server/server.js",

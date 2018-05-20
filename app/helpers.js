@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {addCard, removeCard} from '../controllers/Cards';
+import {addCard, removeCard} from './cards';
 /**
  *  Acquire a json file
  *  from iextrading api's https://api.iextrading.com/1.0/stock/<symbol>/book
