@@ -216,8 +216,9 @@ document.addEventListener('DOMContentLoaded', function () {
     element.input.focus();
     element.cards.addEventListener('click', removeStock);
     document.getElementById('stock_search').addEventListener('submit', addStock);
-    socket.on('changesWereMade', rebuildPage);
+    
     initPage();
+    socket.on('changesWereMade', rebuildPage);
 });
 
 
