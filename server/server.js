@@ -1,7 +1,7 @@
-require("babel-polyfill");
-import express from "express";
-import https from "https";
-import mongoose from "mongoose";
+require('babel-polyfill');
+import express from 'express';
+import https from 'https';
+import mongoose from 'mongoose';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
@@ -20,9 +20,9 @@ const server = app.listen( port, function () {
 const io = require('socket.io')(server);
 
 let config = null;
-const isDev = process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test";
+const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 if(isDev) {
-    config = require("./config").config;
+    config = require('./config').config;
 	app.use(webpackDevMiddleware(compiler, {
 	    publicPath: webpackConfig.output.publicPath
 	}));
@@ -38,7 +38,7 @@ app.use('/js', express.static(process.cwd() + '/js'));
 
 let mongoDB;
 
-if(process.env.NODE_ENV === "test"){
+if(process.env.NODE_ENV === 'test'){
 	mongoDB = config.MONGOLAB_URI_TEST;
 } else {
 	mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI
@@ -60,8 +60,8 @@ const connect = () => {
 connect();
 mongoose.Promise = global.Promise;
 const db = mongoose.connection;
-db.on("error", console.error)
-db.on("disconnected", connect)
+db.on('error', console.error)
+db.on('disconnected', connect)
 
 
 
@@ -76,8 +76,8 @@ io.on('connection', function (socket) {
 //use json() for axios
 app.use(require('body-parser').json());
 app.options('*', cors()) ;
-app.get("/data", getStocks);
-app.post("/data", updateStocks);
+app.get('/data', getStocks);
+app.post('/data', updateStocks);
 
 app.route('/')
     .get(renderPage);

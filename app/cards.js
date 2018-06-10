@@ -1,4 +1,4 @@
-import getRandomColor from './util/RandomColor';
+import getRandomColor from './util/randomColor';
 
 var cardList = {};
 
@@ -15,7 +15,7 @@ export function setCards(data = []){
 	return cardList;
 }
 
-export function addCard(card){
+export function addCardData(card){
 	if(card.symbol && cardList[card.symbol] == null){
 		let data = {};
 		data.companyName = card.companyName || '';
@@ -26,14 +26,14 @@ export function addCard(card){
 	
 }
 
-export function getCard(symbol){
+export function getCardData(symbol){
 	return cardList[symbol] ? {symbol: symbol, companyName: cardList[symbol].companyName,  color: cardList[symbol].color} : null;
 }
 
-export function removeCard(symbol){
+export function deleteCardData(symbol){
 	delete cardList[symbol];
 }
 
-export function getCards(){
+export function getCardsList(){
 	return cardList;
 }

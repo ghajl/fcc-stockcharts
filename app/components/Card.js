@@ -1,4 +1,4 @@
-import getRandomColor from '../util/RandomColor';
+import getRandomColor from '../util/randomColor';
 
 export default function Card(data){
 	const element = `<div id=${data.symbol} class="fcc-sc-card">
@@ -6,7 +6,7 @@ export default function Card(data){
 						<div class="fcc-sc-symbol" style="color: ${data.color}">${data.symbol}</div>
 						<div class="fcc-sc-name">${data.companyName}</div>
 						</div>
-						<div class="fcc-sc-close"><i class="material-icons md-18 gray">close</i></div>
+						<i class="fcc-sc-close material-icons md-18 gray">close</i>
 					</div>`;
 	return element;
 }

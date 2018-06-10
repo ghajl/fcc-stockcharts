@@ -1,12 +1,12 @@
 import axios from 'axios';
-import {addCard, removeCard} from './cards';
+import {addCardData, deleteCardData} from './cards';
 /**
  *  Acquire a json file
  *  from iextrading api's https://api.iextrading.com/1.0/stock/<symbol>/book
  */
 export async function getStockSymbolData(input){
-    const url =
-        "https://api.iextrading.com/1.0/stock/" + input + "/book";
+
+    const url = `https://api.iextrading.com/1.0/stock/${input}/book`;
     let symbol = '', companyName = '';
     
     const {data} = await axios(url);
@@ -28,8 +28,7 @@ export async function getStockSymbolData(input){
  */
 export async function getHistoricalData(symbols){
     let symbolsNames = symbols.join(',');
-    const url =
-        "https://api.iextrading.com/1.0/stock/market/batch?symbols=" + symbolsNames + "&types=quote,chart&range=5y&filter=symbol,companyName,date,minute,close";
+    const url = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbolsNames}&types=quote,chart&range=5y&filter=symbol,companyName,date,minute,close`;
     
     const {data} = await axios(url);
     const chartsData = {};
@@ -64,13 +63,13 @@ export async function getHistoricalData(symbols){
 
 export async function removeStockData(symbol, socket){
     await axios.post('/data', {operation: 'REMOVE', symbol});
-    removeCard(symbol);
+    deleteCardData(symbol);
     socket.emit('changesWereMade');
 }
 
 export async function addStockData(symbol, companyName, socket){
     await axios.post('/data', {operation: 'ADD', symbol, companyName});
-    addCard({symbol, companyName});
+    addCardData({symbol, companyName});
     socket.emit('changesWereMade');
 }
 
