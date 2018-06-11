@@ -1,8 +1,8 @@
 require("babel-polyfill");
-import getRandomColor from './util/randomColor';
+import getRandomColor from './util/RandomColor';
 import {initChart, drawChart} from './chart';
 import Card from './components/Card';
-import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/messages';
+import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/Messages';
 import {setCards, getCardData, getCardsList, addCardData, deleteCardData} from './cards';
 import {getStocksData, addStockData, removeStockData, getHistoricalData, getStockSymbolData} from './helpers';
 

@@ -1,4 +1,4 @@
-import getRandomColor from './util/randomColor';
+import getRandomColor from './util/RandomColor';
 
 var cardList = {};
 
