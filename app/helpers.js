@@ -6,16 +6,16 @@ import {addCardData, deleteCardData} from './cards';
  */
 export async function getStockSymbolData(input){
 
-    const url = `https://api.iextrading.com/1.0/stock/${input}/book`;
-    let symbol = '', companyName = '';
-    
-    const {data} = await axios(url);
-    
-    if(data.quote && data.quote.symbol){
-        symbol = data.quote.symbol;
-        if(data.quote.companyName) companyName = data.quote.companyName;    
-    }
-    return {symbol, companyName};
+  const url = `https://api.iextrading.com/1.0/stock/${input}/book`;
+  let symbol = '', companyName = '';
+  
+  const {data} = await axios(url);
+  
+  if(data.quote && data.quote.symbol){
+      symbol = data.quote.symbol;
+      if(data.quote.companyName) companyName = data.quote.companyName;    
+  }
+  return {symbol, companyName};
 }
 
 
@@ -64,13 +64,13 @@ export async function getHistoricalData(symbols){
 export async function removeStockData(symbol, socket){
     await axios.post('/data', {operation: 'REMOVE', symbol});
     deleteCardData(symbol);
-    socket.emit('changesWereMade');
+    socket.emit('update');
 }
 
 export async function addStockData(symbol, companyName, socket){
     await axios.post('/data', {operation: 'ADD', symbol, companyName});
     addCardData({symbol, companyName});
-    socket.emit('changesWereMade');
+    socket.emit('update');
 }
 
 export async function getStocksData(){

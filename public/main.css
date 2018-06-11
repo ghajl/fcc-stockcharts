@@ -139,7 +139,7 @@ footer .fcc-sc-link {
     display: inline-block;
     box-shadow: 3px 3px 19px 0px rgba(0,0,0,.5);
     position: relative;
-    transition: opacity .4s ease;
+    transition: opacity .2s ease;
 }
 
 .fade {

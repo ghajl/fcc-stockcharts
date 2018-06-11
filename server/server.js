@@ -44,9 +44,9 @@ if(process.env.NODE_ENV === 'test'){
 	mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI
 }
 const mongoOptions = {
-    useMongoClient: true,
-    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-    reconnectInterval: 500, // Reconnect every 500ms
+  useMongoClient: true,
+  reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
+  reconnectInterval: 500, // Reconnect every 500ms
 };
 const connect = () => {
 	mongoose.connect(mongoDB, mongoOptions, (err, res) => {
@@ -67,9 +67,9 @@ db.on('disconnected', connect)
 
 
 io.on('connection', function (socket) {
-    socket.on('changesWereMade', function () {
-	    socket.broadcast.emit('changesWereMade');
-    });
+  socket.on('update', function () {
+    socket.broadcast.emit('update');
+  });
 });
 
 // app.use(require('cookie-parser')());
