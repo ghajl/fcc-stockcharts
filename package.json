@@ -12,7 +12,7 @@
     "test": "set NODE_ENV=test&& mocha --compilers js:babel-core/register --require babel-polyfill --timeout 3000 --recursive lib/test",
     "dev": "set NODE_ENV=development&& node lib/server/server.js",
     "start": "node lib/server/server.js",
-    "heroku-postbuild": "webpack -p --config webpack.prod.js --progress && babel server --out-dir lib/server && babel util --out-dir lib/util && babel components --out-dir lib/components && babel controllers --out-dir lib/controllers"
+    "heroku-postbuild": "webpack -p --config webpack.prod.js --progress && babel server --out-dir lib/server && babel app --out-dir lib/app"
   },
   "author": "ghajl",
   "license": "ISC",
