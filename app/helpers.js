@@ -12,8 +12,8 @@ export async function getStockSymbolData(input){
   const {data} = await axios(url);
   
   if(data.quote && data.quote.symbol){
-      symbol = data.quote.symbol;
-      if(data.quote.companyName) companyName = data.quote.companyName;    
+    symbol = data.quote.symbol;
+    if(data.quote.companyName) companyName = data.quote.companyName;    
   }
   return {symbol, companyName};
 }
@@ -27,53 +27,53 @@ export async function getStockSymbolData(input){
  *  @returns {Object.<string, [number, number][]>} chartsData
  */
 export async function getHistoricalData(symbols){
-    let symbolsNames = symbols.join(',');
-    const url = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbolsNames}&types=quote,chart&range=5y&filter=symbol,companyName,date,minute,close`;
-    
-    const {data} = await axios(url);
-    const chartsData = {};
-    for(let name in data){
-        if(data[name].chart) chartsData[name] = data[name].chart.map(data => {
-            if(data.date){
-                let year = +data.date.slice(0,4);
-                let month = +data.date.slice(5,7) - 1;
-                let day = +data.date.slice(8);
-                let hour = 0;
-                let minute = 0;
-                if(data.minute){
-                    hour = +data.minute.slice(0, 2);
-                    minute = +data.minute.slice(3);
-                }
-                let current = new Date(year, month, day, hour, minute);
-                    
-                let price = 0;
-                if(data.close){
-                   price = data.close;
-                }
-                return [current.getTime(), price]
-            } else {
-                return [0,0];
-            }
-                
-        })
-    }
-    return chartsData;
+  let symbolsNames = symbols.join(',');
+  const url = `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbolsNames}&types=quote,chart&range=5y&filter=symbol,companyName,date,minute,close`;
+  
+  const {data} = await axios(url);
+  const chartsData = {};
+  for(let name in data){
+    if(data[name].chart) chartsData[name] = data[name].chart.map(data => {
+      if(data.date){
+        let year = +data.date.slice(0,4);
+        let month = +data.date.slice(5,7) - 1;
+        let day = +data.date.slice(8);
+        let hour = 0;
+        let minute = 0;
+        if(data.minute){
+          hour = +data.minute.slice(0, 2);
+          minute = +data.minute.slice(3);
+        }
+        let current = new Date(year, month, day, hour, minute);
+            
+        let price = 0;
+        if(data.close){
+         price = data.close;
+        }
+        return [current.getTime(), price]
+      } else {
+        return [0,0];
+      }
+            
+    })
+  }
+  return chartsData;
 }
 
 
 export async function removeStockData(symbol, socket){
-    await axios.post('/data', {operation: 'REMOVE', symbol});
-    deleteCardData(symbol);
-    socket.emit('update');
+  await axios.post('/data', {operation: 'REMOVE', symbol});
+  deleteCardData(symbol);
+  socket.emit('update');
 }
 
 export async function addStockData(symbol, companyName, socket){
-    await axios.post('/data', {operation: 'ADD', symbol, companyName});
-    addCardData({symbol, companyName});
-    socket.emit('update');
+  await axios.post('/data', {operation: 'ADD', symbol, companyName});
+  addCardData({symbol, companyName});
+  socket.emit('update');
 }
 
 export async function getStocksData(){
-    const docs = await axios.get('/data');
-    return docs.data.data.reduce((acc, company) => {acc[company.symbol] = company.companyName; return acc }, {})        
+  const docs = await axios.get('/data');
+  return docs.data.data.reduce((acc, company) => {acc[company.symbol] = company.companyName; return acc }, {})        
 }
