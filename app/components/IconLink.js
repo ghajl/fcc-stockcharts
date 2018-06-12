@@ -1,7 +1,7 @@
 export default function IconLink(obj){
   const href = obj.href || '#top';
   const svgPath = obj.svgPath || 'M150 0 L75 200 L225 200 Z';
-  return `
+  const element = `
     <div class="fcc-sc-element" >
       <div class="fcc-sc-link">
         <a href=${href} target="_blank" class="fcc-sc-a">
@@ -14,4 +14,5 @@ export default function IconLink(obj){
       </div>
     </div>
   `;
+  return element.trim();
 }

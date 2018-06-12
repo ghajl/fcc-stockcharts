@@ -50,11 +50,12 @@ function makePage(symbols){
       
 
       <link rel="stylesheet" type="text/html" href="public/normalize.css">
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
       <link rel="stylesheet" type="text/css" href="public/main.css">
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Ubuntu"/>
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
       <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.deep_purple-amber.min.css">
+      <link rel="stylesheet" href="public/vex.css" />
+      <link rel="stylesheet" href="public/vex-theme-os.css" />
       <link rel="stylesheet" type="text/html" href="dialog-polyfill.css" />
       <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     </head>
@@ -66,8 +67,6 @@ function makePage(symbols){
           </div>
         
         </div>
-        ${MessageDialog}
-        
         <div class="chart-wrapper">
           <div class="fcc-sc-search">
             <div class='fcc-sc-search-bar'>
@@ -98,11 +97,6 @@ function makePage(symbols){
       <script src="https://code.highcharts.com/stock/highstock.js"></script>
       <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
       <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
-      <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.2.1.min.js"><\/script>')</script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-      <script src="/js/vendor/dialog-polyfill.js"></script>
       <script src=${bundlePath}></script>
 
         

@@ -14,5 +14,5 @@ export default function Card(data){
       </div>
     </div>
   `;
-  return element;
+  return element.trim();
 }
