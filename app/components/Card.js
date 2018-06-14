@@ -1,5 +1,3 @@
-import getRandomColor from '../util/RandomColor';
-
 export default function Card(data){
   const element = `
     <div id=${data.symbol} class="fcc-sc-card">

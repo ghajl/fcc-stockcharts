@@ -1,4 +1,4 @@
-import getRandomColor from './util/RandomColor';
+import {random as getRandomColor} from './colorGenerator';
 
 export default class Stocks {
   constructor(data = []) {

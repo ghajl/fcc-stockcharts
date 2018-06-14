@@ -1,17 +1,11 @@
-const path = require('path')
-
-module.exports = {
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require('path');
+const config = {
   entry: ['babel-polyfill','./app/main.js'],
   output: {
     filename: 'bundle.js',
-    path: path.resolve(process.cwd(),  'public'),
-    publicPath: '/'
-  },
-  devServer: {
-    port: 3000,
-    contentBase: './dist',
-    
-    historyApiFallback: true,
+    path: path.resolve(process.cwd(),  'dist'),
+    publicPath: '/dist/'
   },
   module: {
     rules: [
@@ -27,22 +21,23 @@ module.exports = {
         }
       },
       {
-        test: /\.css$/,
-        use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+        test: /\.(s)?css$/,
+        use:  [  'style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader?sourceMap', 'sass-loader?sourceMap']
       },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8192
-            }
-          }
-        ]
-      }
     ]
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: `[name].css`
+    })
+  ],
+};
 
+module.exports = (env, argv) => {
+  if (typeof argv === 'undefined') { //mode not defined
+    config.entry = [...config.entry, 'webpack-hot-middleware/client'];
+    config.mode = 'development';
+    config.devtool = 'source-map';
+  }
+  return config;
 }
-

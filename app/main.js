@@ -1,13 +1,14 @@
 require("babel-polyfill");
+import '../css/main.css';
 import vex from 'vex-js';
 import vexDialog from 'vex-dialog';
-import getRandomColor from './util/RandomColor';
+import {random as getRandomColor} from './util/colorGenerator';
 import {initChart, drawChart} from './chart';
 import renderCard from './components/Card';
-import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/Messages';
-import {getHistoricalData, getStockSymbolData} from './apiUtils';
-import db from './dbUtils';
-import Stocks from './Stocks';
+import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/messages';
+import {getHistoricalData, getStockSymbolData} from './util/api';
+import db from './util/db';
+import Stocks from './util/Stocks';
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
       node: null,
 
       addCard(symbol, companyName){
-        const color = stocks.getStockData(symbol).color;
+        const color = localStocks.getStockData(symbol).color;
         const lastCard = document.querySelector('.fcc-sc-card:last-child');
         const wrapper = document.createElement('div');
         wrapper.innerHTML = renderCard({symbol, companyName, color});
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function () {
     element.progress.activate();
     const input = element.input.getValue();
     let companyName = '';
-    if (input.trim() === '' || stocks.getStockData(input) != null) {
+    if (input.trim() === '' || localStocks.getStockData(input) != null) {
       element.progress.stop();
       element.input.setValue('');
       element.input.setFocus();
@@ -101,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
     try{
       const {symbol, companyName} = await getStockSymbolData(input);
       await db.addStock(symbol, companyName, socket);
-      stocks.addStock(symbol, companyName);
+      localStocks.addStock(symbol, companyName);
       element.cardsContainer.addCard(symbol, companyName);
       createChart();
     } catch(err){
@@ -123,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
       try {
         if (symbol !== '') {
           await db.removeStock(symbol, socket);
-          stocks.removeStock(symbol);
+          localStocks.removeStock(symbol);
           await element.cardsContainer.removeCard(symbol);
           createChart();
         } else throw "Can't get data";
@@ -139,20 +140,20 @@ document.addEventListener('DOMContentLoaded', function () {
     element.progress.activate();
     try{
       const stocksDbData = await db.getStocks();
-      const stocksPage = Object.keys(stocks.getAll());
+      const stocksPage = Object.keys(localStocks.getAll());
       const stocksDb = Object.keys(stocksDbData);
       const stocksAdd = stocksDb.filter(stock => stocksPage.indexOf(stock) == -1);
       const stocksRemove = stocksPage.filter(stock => stocksDb.indexOf(stock) == -1);
       if (stocksRemove.length !== 0) {
         stocksRemove.forEach(async (symbol) => {
-          stocks.removeStock(symbol);
+          localStocks.removeStock(symbol);
           await element.cardsContainer.removeCard(symbol);
         })
       }
       if (stocksAdd.length !== 0) {
         stocksAdd.forEach(symbol => {
           const companyName = stocksDbData[symbol];
-          stocks.addStock(symbol, companyName);
+          localStocks.addStock(symbol, companyName);
           element.cardsContainer.addCard(symbol, companyName);
         })
       }
@@ -173,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
    *                   color: string ('rgb(43, 181, 45)')}]
    */
   async function createChart() {
-    const stockList = stocks.getAll();
+    const stockList = localStocks.getAll();
     const stockSymbols = Object.keys(stockList);
     const seriesOptions = [];
     if (!stockSymbols.length) {
@@ -237,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function () {
   socket.on('update', rebuildPage);
 
   const initialStocks = getCardsData();
-  const stocks = new Stocks(initialStocks);
+  const localStocks = new Stocks(initialStocks);
 
   initPage();
 

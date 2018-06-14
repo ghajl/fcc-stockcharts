@@ -9,21 +9,22 @@ a {
 }
 body {
   margin: 0;     
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .fcc-sc-content {
   flex: 1 0 auto;
-    background-color: #6761A8;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  background-color: #6761A8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .fcc-sc-header {
     box-sizing: content-box;
+    flex: 0 0 auto;
     text-align: center;
     text-transform: uppercase;
     height: 51px;

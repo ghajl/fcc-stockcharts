@@ -5,9 +5,10 @@ import mongoose from 'mongoose';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../../webpack.config.js';
-import {renderPage} from '../app/index';
-import {getStocks, updateStocks} from './controllers/stocks'
+import webpackConfigInit from '../../webpack.config.js';
+import renderPage from '../app/index';
+import {getStocks, updateStocks} from './controllers/stocks';
+const webpackConfig = webpackConfigInit();
 const app = express();
 const compiler = webpack(webpackConfig);
 const cors = require('cors');
@@ -22,9 +23,9 @@ const io = require('socket.io')(server);
 let config = null;
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 if(isDev) {
-    config = require('./config').config;
+  config = require('./config').config;
 	app.use(webpackDevMiddleware(compiler, {
-	    publicPath: webpackConfig.output.publicPath
+		publicPath: webpackConfig.output.publicPath
 	}));
 	app.use(webpackHotMiddleware(compiler));
 	app.use(cors({
@@ -34,7 +35,7 @@ if(isDev) {
 }
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/dist', express.static(process.cwd() + '/dist'));
-app.use('/js', express.static(process.cwd() + '/js'));
+app.use('/vendor', express.static(process.cwd() + '/vendor'));
 
 let mongoDB;
 
@@ -44,7 +45,6 @@ if(process.env.NODE_ENV === 'test'){
 	mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI
 }
 const mongoOptions = {
-  useMongoClient: true,
   reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
   reconnectInterval: 500, // Reconnect every 500ms
 };
@@ -72,7 +72,6 @@ io.on('connection', function (socket) {
   });
 });
 
-// app.use(require('cookie-parser')());
 //use json() for axios
 app.use(require('body-parser').json());
 app.options('*', cors()) ;
