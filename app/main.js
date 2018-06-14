@@ -6,7 +6,7 @@ import {random as getRandomColor} from './util/colorGenerator';
 import {initChart, drawChart} from './chart';
 import renderCard from './components/Card';
 import {getHistoricalData, getStockSymbolData} from './util/api';
-import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/messages';
+import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/message';
 import db from './util/db';
 import Stocks from './util/Stocks';
 
