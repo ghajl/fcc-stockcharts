@@ -11,9 +11,8 @@
     "pretest": "babel server --out-dir lib/server && babel app --out-dir lib/app && babel test --out-dir lib/test",
     "test": "set NODE_ENV=test&& mocha --compilers js:babel-core/register --require babel-polyfill --timeout 3000 --recursive lib/test",
     "dev": "set NODE_ENV=development&& node lib/server/server.js",
-    "start": "webpack --mode production && node lib/server/server.js",
-    "heroku-postbuild": "webpack --mode production && babel server --out-dir lib/server && babel app --out-dir lib/app",
-    "build": "webpack --mode production"
+    "start": "node lib/server/server.js",
+    "heroku-postbuild": "webpack --mode production && babel server --out-dir lib/server && babel app --out-dir lib/app"
   },
   "author": "ghajl",
   "license": "ISC",
