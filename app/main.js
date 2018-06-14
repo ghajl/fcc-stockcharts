@@ -5,8 +5,8 @@ import vexDialog from 'vex-dialog';
 import {random as getRandomColor} from './util/colorGenerator';
 import {initChart, drawChart} from './chart';
 import renderCard from './components/Card';
-import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/messages';
 import {getHistoricalData, getStockSymbolData} from './util/api';
+import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/messages';
 import db from './util/db';
 import Stocks from './util/Stocks';
 
