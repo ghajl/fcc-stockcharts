@@ -50,39 +50,43 @@ function makePage(symbols){
       <link rel="stylesheet" href="vendor/css/vex-theme-os.css">
       <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     </head>
+
     <body>
-      
-        <div class="fcc-sc-header">
-          <div  class="fcc-sc-title">
-            Stock Charts
-          </div>
-        
+
+      <header class="header">
+        <div class="title">
+          Stock Charts
         </div>
-        <div class="fcc-sc-content">
+      </header>
+
+        <main class="fcc-sc-content">
         <div class="chart-wrapper">
-          <div class="fcc-sc-search">
-            <div class='fcc-sc-search-bar'>
-              <form id="stock_search">
-                <input type="text" placeholder="Enter symbol here.." name="search">
-                <button type="submit">Submit</button>
-              </form>
-            </div>
+          <div class="search_bar">
+            <form id="stock_search">
+              <input type="text" placeholder="Enter symbol here.." name="search">
+              <button type="submit">Submit</button>
+            </form>
           </div>
+
+
+          <!-- Chart -->
           <div id="chart"></div>
 
           <div id="progress" class="mdl-progress mdl-js-progress" style="width: 100%"></div>
         </div>
-        <div id="controls">
+
+        <!-- Stock info cards -->
+        <div id="stock_cards">
           ${stocks.map(v => Card(v)).join('')}
         </div>
-      </div>
+      </main>
+
+      <!-- Footer -->
       <footer>
-        
-        <div class="fcc-sc-container">
+        <div class="container">
           ${IconLink(git)}
           ${IconLink(email)}
         </div>
-        
       </footer>
 
       <script src="/socket.io/socket.io.js"></script>

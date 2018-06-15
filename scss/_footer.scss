@@ -1,0 +1,49 @@
+footer {
+  text-align: center;
+  background-color: #2A2D34;
+  
+  .container {
+    display: inline-block;
+    width: auto;
+    text-align: center;
+
+    .element {
+      display: inline-block;
+      max-width: 160px;
+      text-align: center;
+    }
+
+    a {
+      color: #009B72;
+      fill: #009B72;
+      &:hover {
+        color: #F26430;
+      }
+    }
+
+    .item {
+      text-align: center;
+      margin: 5px auto 5px;
+      min-width: 130px;
+      font-size: .9em;
+    }
+
+
+    .icon {
+      width: 36px;
+      height: 36px;
+      box-sizing: border-box;
+      padding: 5px;
+      margin: .5em;
+      border-radius: 50%;
+      border: 1px solid;
+      border-color: #009B72;
+      transition: .4s;
+      &:hover {
+        border-color: #F26430;
+        background-color: #F26430;
+        fill: white;
+      }
+    }
+  }
+}

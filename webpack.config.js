@@ -22,7 +22,7 @@ const config = {
       },
       {
         test: /\.(s)?css$/,
-        use:  [  'style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader?sourceMap', 'sass-loader?sourceMap']
+        use:  ['style-loader', MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader?sourceMap', 'sass-loader?sourceMap']
       },
     ]
   },

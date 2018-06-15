@@ -1,0 +1,40 @@
+
+html {
+  background: white;
+  height: 100%;
+  font-size: 14px;
+}
+
+a {
+  text-decoration: none !important;
+  outline: none;
+}
+body {
+  margin: 0;     
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.fcc-sc-content {
+  flex: 1 0 auto;
+  background-color: #6761A8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.chart-wrapper {
+  width: 80%; 
+}
+
+#chart {
+  width: 80%; 
+  height: 400px;
+  background-color: #2a2a2b;
+}
+
+@import "header.scss";
+@import "searchbar.scss";
+@import "cards.scss";
+@import "footer.scss";

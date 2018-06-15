@@ -1,0 +1,31 @@
+header.header {
+  display: inline-block;
+  box-sizing: content-box;
+  position: relative;
+  top: 0;
+  width: 100%;
+  height: 51px;
+  flex: 0 0 auto;
+  text-align: center;
+  text-transform: uppercase;
+  overflow: hidden;
+  color: #009DDC;
+  background-color: #2A2D34;
+  @media (min-width: 768px) {
+    height: 62px;
+  }
+
+  .title {
+    display: inline-block;
+    padding: 1em;
+    text-align: center;
+    font: {
+      weight: 900;
+      family: Ubuntu, sans-serif; 
+      size: 1.1em;
+    }
+    @media (min-width: 768px) {
+      font-size: 1.5em;
+    }
+  }
+}

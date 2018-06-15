@@ -7,12 +7,12 @@
   },
   "main": "index.js",
   "scripts": {
-    "predev": "babel server --out-dir lib/server && babel app --out-dir lib/app",
+    "predev": "babel server --out-dir lib/server && babel app --out-dir lib/app --ignore chart.js,main.js,api.js,db.js,message.js",
     "pretest": "babel server --out-dir lib/server && babel app --out-dir lib/app && babel test --out-dir lib/test",
     "test": "set NODE_ENV=test&& mocha --compilers js:babel-core/register --require babel-polyfill --timeout 3000 --recursive lib/test",
     "dev": "set NODE_ENV=development&& node lib/server/server.js",
     "start": "node lib/server/server.js",
-    "heroku-postbuild": "webpack --mode production && babel server --out-dir lib/server && babel app --out-dir lib/app"
+    "heroku-postbuild": "webpack --mode production && babel server --out-dir lib/server && babel app --out-dir lib/app --ignore chart.js,main.js,api.js,db.js,message.js"
   },
   "author": "ghajl",
   "license": "ISC",

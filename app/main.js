@@ -1,5 +1,5 @@
 require("babel-polyfill");
-import '../css/main.css';
+import '../scss/main.scss';
 import vex from 'vex-js';
 import vexDialog from 'vex-dialog';
 import {random as getRandomColor} from './util/colorGenerator';
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       addCard(symbol, companyName){
         const color = localStocks.getStockData(symbol).color;
-        const lastCard = document.querySelector('.fcc-sc-card:last-child');
+        const lastCard = document.querySelector('.card:last-child');
         const wrapper = document.createElement('div');
         wrapper.innerHTML = renderCard({symbol, companyName, color});
         const newCard = wrapper.firstChild;
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
    *  Shows message in case of error. 
    */
   async function removeStock(event) {
-    if (event && event.target && event.target.classList.contains('fcc-sc-close')) {
+    if (event && event.target && event.target.classList.contains('close')) {
       element.progress.activate();
       let symbol = getCardSymbol(event);
       try {
@@ -180,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!stockSymbols.length) {
       drawChart('chart', seriesOptions) 
       element.progress.stop();
+      element.input.setFocus();
     } else {
       try{
         const data = await getHistoricalData(stockSymbols);
@@ -204,11 +205,11 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function getCardsData(){
-    const cards = [...document.querySelectorAll('#controls .fcc-sc-card')];
+    const cards = [...document.querySelectorAll('#stock_cards .card')];
     return cards.map(card => {
       const symbol = card.id;
-      const color = document.querySelector(`#${symbol} .fcc-sc-symbol`).style.color;
-      const companyName = document.querySelector(`#${symbol} .fcc-sc-name`).textContent;
+      const color = document.querySelector(`#${symbol} .symbol`).style.color;
+      const companyName = document.querySelector(`#${symbol} .company_name`).textContent;
       return {symbol, color, companyName};
     });
   }
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
   element.input.node = document.querySelector('#stock_search input');
   element.progress.node = document.getElementById('progress');
-  element.cardsContainer.node = document.getElementById('controls');
+  element.cardsContainer.node = document.getElementById('stock_cards');
 
   element.cardsContainer.node.addEventListener('click', removeStock);
   document.getElementById('stock_search').addEventListener('submit', addStock);
