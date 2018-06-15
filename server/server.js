@@ -24,14 +24,14 @@ let config = null;
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 if(isDev) {
   config = require('./config').config;
-	app.use(webpackDevMiddleware(compiler, {
-		publicPath: webpackConfig.output.publicPath
-	}));
-	app.use(webpackHotMiddleware(compiler));
-	app.use(cors({
-	    origin: 'http://localhost:3000/',
-	    credentials: true
-	}));
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath
+  }));
+  app.use(webpackHotMiddleware(compiler));
+  app.use(cors({
+      origin: 'http://localhost:3000/',
+      credentials: true
+  }));
 }
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/dist', express.static(process.cwd() + '/dist'));
@@ -40,22 +40,22 @@ app.use('/vendor', express.static(process.cwd() + '/vendor'));
 let mongoDB;
 
 if(process.env.NODE_ENV === 'test'){
-	mongoDB = config.MONGOLAB_URI_TEST;
+  mongoDB = config.MONGOLAB_URI_TEST;
 } else {
-	mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI
+  mongoDB = process.env.MONGOLAB_URI || config.MONGOLAB_URI
 }
 const mongoOptions = {
   reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
   reconnectInterval: 500, // Reconnect every 500ms
 };
 const connect = () => {
-	mongoose.connect(mongoDB, mongoOptions, (err, res) => {
-		if (err) {
-			console.log(`Error connecting`)
-		} else {
-			console.log(`Successfully connected`)
-		}
-	});
+  mongoose.connect(mongoDB, mongoOptions, (err, res) => {
+    if (err) {
+      console.log(`Error connecting`)
+    } else {
+      console.log(`Successfully connected`)
+    }
+  });
 }
 connect();
 mongoose.Promise = global.Promise;
