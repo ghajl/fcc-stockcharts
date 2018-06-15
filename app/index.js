@@ -59,8 +59,8 @@ function makePage(symbols){
         </div>
       </header>
 
-        <main class="fcc-sc-content">
-        <div class="chart-wrapper">
+      <main class="content">
+        <div class="wrapper">
           <div class="search_bar">
             <form id="stock_search">
               <input type="text" placeholder="Enter symbol here.." name="search">
@@ -68,16 +68,14 @@ function makePage(symbols){
             </form>
           </div>
 
-
           <!-- Chart -->
           <div id="chart"></div>
-
           <div id="progress" class="mdl-progress mdl-js-progress" style="width: 100%"></div>
-        </div>
 
-        <!-- Stock info cards -->
-        <div id="stock_cards">
-          ${stocks.map(v => Card(v)).join('')}
+          <!-- Stock info cards -->
+          <div id="stock_cards">
+            ${stocks.map(v => Card(v)).join('')}
+          </div>
         </div>
       </main>
 
