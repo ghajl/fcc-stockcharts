@@ -28,6 +28,8 @@ export async function getStockSymbolData(input){
       let price = timeSeries[date]['4. close'];
       return [current.getTime(), +price]
     })
+  } else {
+    throw new Error('symbol not found');
   }
   return {symbol, companyName, historicalData};
 }
