@@ -1,7 +1,7 @@
 import Stock from '../models/stock';
 
 export function getStocks(req, res, next) {
-	Stock.find( {}, 'symbol companyName', (err, docs) => {
+	Stock.find( {}, 'symbol companyName historicalData', (err, docs) => {
 		if (err) {
 			return res.sendStatus(401);
 		}
@@ -18,7 +18,8 @@ export function updateStocks(req, res, next){
 function addStock(req, res, next) {
 	const newStock = new Stock({
 	    symbol: req.body.symbol,
-	    companyName: req.body.companyName
+	    companyName: req.body.companyName,
+	    historicalData: req.body.historicalData
 	});	
 	Stock.findOne({ symbol: req.body.symbol }, (err, stock) => {
 		

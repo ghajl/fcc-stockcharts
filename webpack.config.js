@@ -1,7 +1,9 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const nodeExternals = require('webpack-node-externals');
+const NodemonPlugin = require('nodemon-webpack-plugin');
 const path = require('path');
-const config = {
-  entry: ['babel-polyfill','./app/main.js'],
+const browserConfig = {
+  entry: { main: ['./app/main.js']},
   output: {
     filename: 'bundle.js',
     path: path.resolve(process.cwd(),  'dist'),
@@ -13,11 +15,7 @@ const config = {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['env'],
-            plugins: ['transform-class-properties']
-          }
+          loader: 'babel-loader'
         }
       },
       {
@@ -31,13 +29,39 @@ const config = {
       filename: `[name].css`
     })
   ],
+  resolve: {
+    extensions: ['.js']
+  }
 };
 
-module.exports = (env, argv) => {
-  if (typeof argv === 'undefined') { //mode not defined
-    config.entry = [...config.entry, 'webpack-hot-middleware/client'];
-    config.mode = 'development';
-    config.devtool = 'source-map';
+const serverConfig = {
+  entry: ['./server/server.js'],
+  target: 'node',
+  externals: [nodeExternals()],
+  output: {
+    path: path.resolve(process.cwd(), 'lib/server'),
+    filename: 'server.js',
+    publicPath: '/lib/server/'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        use: {
+          loader: 'babel-loader'
+        }
+      }
+    ]
+  },
+  plugins: [
+    new NodemonPlugin({
+      script: './lib/server/server.js',
+      watch: path.resolve('./server')
+    })
+  ],
+  resolve: {
+    extensions: ['.js']
   }
-  return config;
-}
+};
+
+module.exports = [browserConfig, serverConfig];

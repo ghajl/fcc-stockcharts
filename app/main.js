@@ -1,11 +1,10 @@
-require("babel-polyfill");
 import '../scss/main.scss';
 import vex from 'vex-js';
 import vexDialog from 'vex-dialog';
 import {random as getRandomColor} from './util/colorGenerator';
 import {initChart, drawChart} from './chart';
 import renderCard from './components/Card';
-import {getHistoricalData, getStockSymbolData} from './util/api';
+import { getStockSymbolData } from './util/api';
 import {SYMBOL_ERROR_MESSAGE, REQUEST_ERROR_MESSAGE} from './util/message';
 import db from './util/db';
 import Stocks from './util/Stocks';
@@ -100,9 +99,9 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
     try{
-      const {symbol, companyName} = await getStockSymbolData(input);
-      await db.addStock(symbol, companyName, socket);
-      localStocks.addStock(symbol, companyName);
+      const {symbol, companyName, historicalData} = await getStockSymbolData(input);
+      await db.addStock(symbol, companyName, historicalData, socket);
+      localStocks.addStock(symbol, companyName, historicalData);
       element.cardsContainer.addCard(symbol, companyName);
       createChart();
     } catch(err){
@@ -183,12 +182,12 @@ document.addEventListener('DOMContentLoaded', function () {
       element.input.setFocus();
     } else {
       try{
-        const data = await getHistoricalData(stockSymbols);
-        for (let name in data) {
+        // const data = await getHistoricalData(stockSymbols);
+        for (let name in stockList) {
           if (stockList[name] != null) {
             seriesOptions.push({
               name: name,
-              data: data[name],
+              data: stockList[name].historicalData,
               color: stockList[name].color
             })  
           }
@@ -238,7 +237,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const socket = io({reconnectionAttempts: 10});
   socket.on('update', rebuildPage);
 
-  const initialStocks = getCardsData();
+  const initialStocks = window.initialState;
+  delete window.initialState;
   const localStocks = new Stocks(initialStocks);
 
   initPage();

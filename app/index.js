@@ -18,6 +18,7 @@ function makePage(symbols){
       {
         symbol: s, 
         companyName: symbols[s]['companyName'], 
+        historicalData: symbols[s]['historicalData'],
         color: symbols[s]['color']
       }
     ));
@@ -49,6 +50,9 @@ function makePage(symbols){
       <link rel="stylesheet" href="vendor/css/vex.css">
       <link rel="stylesheet" href="vendor/css/vex-theme-os.css">
       <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+      <script>
+        window.initialState = ${JSON.stringify(stocks)} ;
+      </script>
     </head>
 
     <body>
@@ -100,7 +104,7 @@ function makePage(symbols){
 }
 
 export default function renderPage(request, response, next) {
-  Stock.find( {}, 'symbol companyName', (err, docs) => {
+  Stock.find( {}, 'symbol companyName historicalData', (err, docs) => {
     const dbStocks = new Stocks(docs);
     const cardsData = dbStocks.getAll();
     const appHTML = makePage(cardsData);

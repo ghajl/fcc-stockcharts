@@ -1,16 +1,13 @@
-require('babel-polyfill');
 import express from 'express';
 import https from 'https';
 import mongoose from 'mongoose';
 import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfigInit from '../../webpack.config.js';
+
 import renderPage from '../app/index';
 import {getStocks, updateStocks} from './controllers/stocks';
-const webpackConfig = webpackConfigInit();
+
 const app = express();
-const compiler = webpack(webpackConfig);
+
 const cors = require('cors');
 
 var port = process.env.PORT || 3000;
@@ -24,15 +21,12 @@ let config = null;
 const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 if(isDev) {
   config = require('./config').config;
-  app.use(webpackDevMiddleware(compiler, {
-    publicPath: webpackConfig.output.publicPath
-  }));
-  app.use(webpackHotMiddleware(compiler));
   app.use(cors({
       origin: 'http://localhost:3000/',
       credentials: true
   }));
 }
+
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/dist', express.static(process.cwd() + '/dist'));
 app.use('/vendor', express.static(process.cwd() + '/vendor'));

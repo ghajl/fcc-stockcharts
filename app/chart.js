@@ -264,10 +264,6 @@ export function drawChart(elementId, series){
         text: '1m',
           
       }, {
-        type: 'year',
-        count: 1,
-        text: '1y'
-      }, {
         type: 'all',
         text: 'All'
       }],

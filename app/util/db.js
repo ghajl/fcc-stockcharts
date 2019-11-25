@@ -6,8 +6,8 @@ const dbUtils = {
     socket.emit('update');
   },
 
-  addStock: async (symbol, companyName, socket) => {
-    await axios.post('/data', {operation: 'ADD', symbol, companyName});
+  addStock: async (symbol, companyName, historicalData, socket) => {
+    await axios.post('/data', {operation: 'ADD', symbol, companyName, historicalData});
     socket.emit('update');
   },
 

@@ -6,6 +6,7 @@ export default class Stocks {
       if (val['symbol'] != null) {
         acc[val['symbol']] = {
           companyName: val['companyName'] || '', 
+          historicalData: val['historicalData'] || '', 
           color: val['color'] || getRandomColor(),
         }; 
       }
@@ -13,10 +14,11 @@ export default class Stocks {
     },{});
   }
 
-  addStock(symbol, companyName) {
+  addStock(symbol, companyName, historicalData) {
     if (typeof this.stocks[symbol] === 'undefined'){
       const data = {};
       data.companyName = companyName;
+      data.historicalData = historicalData;
       data.color = getRandomColor();
       this.stocks[symbol] = data;
     }
@@ -31,6 +33,7 @@ export default class Stocks {
       ? {
           symbol, 
           companyName: this.stocks[symbol].companyName,  
+          historicalData: this.stocks[symbol].historicalData, 
           color: this.stocks[symbol].color
         } 
       : null;
