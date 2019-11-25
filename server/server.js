@@ -18,14 +18,14 @@ const server = app.listen( port, function () {
 const io = require('socket.io')(server);
 
 let config = null;
-const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-if(isDev) {
-  config = require('./config').config;
-  app.use(cors({
-      origin: 'http://localhost:3000/',
-      credentials: true
-  }));
-}
+// const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
+// if(isDev) {
+//   config = require('./config').config;
+//   app.use(cors({
+//       origin: 'http://localhost:3000/',
+//       credentials: true
+//   }));
+// }
 
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/dist', express.static(process.cwd() + '/dist'));

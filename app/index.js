@@ -5,10 +5,10 @@ import IconLink from './components/IconLink';
 import Stocks from './util/Stocks';
 
 let config = null;
-const isDev = process.env.NODE_ENV === 'development';
-if (isDev) {
-  config = require('../server/config').config;
-}
+// const isDev = process.env.NODE_ENV === 'development';
+// if (isDev) {
+//   config = require('../server/config').config;
+// }
 const bundlePath = '/dist/bundle.js';
 
 function makePage(symbols){
