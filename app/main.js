@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
       element.cardsContainer.addCard(symbol, companyName);
       createChart();
     } catch(err){
-      console.log(err)
+      // console.log(err)
       element.dialog.show(SYMBOL_ERROR_MESSAGE);
       element.progress.stop();
     }
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
           createChart();
         } else throw "Can't get data";
       } catch(err) {
-        console.log(err)
+        // console.log(err)
         element.dialog.show(REQUEST_ERROR_MESSAGE);
         element.progress.stop();   
       }
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }
       await createChart();        
     } catch(err) {
-      console.log(err);
+      // console.log(err);
       element.dialog.show(REQUEST_ERROR_MESSAGE);
       element.progress.stop();  
     }
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
         element.progress.stop();
         element.input.setFocus();
       } catch(err) {
-        console.log(err);
+        // console.log(err);
         element.dialog.show(REQUEST_ERROR_MESSAGE);
         element.progress.stop();
       }
