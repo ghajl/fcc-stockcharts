@@ -44,7 +44,7 @@
     "normalize.css": "^8.0.0",
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.0.3",
-    "socket.io": "^2.0.4",
+    "socket.io": "^2.5.0",
     "style-loader": "^0.20.3",
     "vex-js": "^4.1.0",
     "webpack": "^4.12.0",
